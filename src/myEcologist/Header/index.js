@@ -3,7 +3,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import './index.css';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsFillPersonFill } from "react-icons/bs";
+// import { BsFillPersonFill } from "react-icons/bs";
 
 function Header() {
     return (
