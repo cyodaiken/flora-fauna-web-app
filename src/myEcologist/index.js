@@ -1,15 +1,20 @@
 import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Header";
-import Content from "./Content";
+import Home from "./Home/Home";
 import Footer from "./Footer";
+import Login from "./Login/Login";
 
 function Ecologist() {
     return (
-        <>
+        <BrowserRouter>
             <Header />
-            <Content />
+            <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
             <Footer />
-        </>
+        </ BrowserRouter>
     );
 }
 
