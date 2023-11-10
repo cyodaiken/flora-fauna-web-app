@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.min.js";
 import './index.css';
 import db from '../Database';
-import { Link, Route, useParams } from 'react-router-dom';
-import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import React from 'react';
 
 function community () {
     const users = db.users;
