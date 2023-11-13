@@ -22,7 +22,6 @@ function Ecologist() {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Explore" element={<Explore />} />
                 <Route path="/Explore/:observationId" element={<Observation />} />
-
             </Routes>
             <Footer />
         </ BrowserRouter>
