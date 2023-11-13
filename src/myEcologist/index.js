@@ -24,6 +24,7 @@ function Ecologist() {
         <Route path="/Home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
         <Route path="/Explore" element={<Explore />} />
         <Route path="/Explore/:observationId" element={<Observation />} />
         <Route path="/Community" element={<Community />} />
