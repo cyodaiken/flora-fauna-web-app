@@ -4,7 +4,7 @@ import Header from "./Header";
 import Home from "./Home/Home";
 import Footer from "./Footer";
 import Login from "./Login/Login";
-import HomeMainCarousel from "./Home/Carousel/Home/Carousel";
+import HomeMainCarousel from "./Home/Carousel/Carousel";
 import HomeCommunityCarousel from "./Home/CommunityCarousel/CommunityCarousel";
 import SignUp from "./Login/SignUp";
 import About from "./About/About";
