@@ -1,9 +1,16 @@
 import React from 'react';
 import './Home.css';
+import HowItWorks from './HowItWorks/HowItWorks';
+import KeepRecord from './KeepRecord/KeepRecord';
+import BeAnEcologiist from './BeAnEcologist/BeAnEcologist';
+import DontMissOut from './DontMissOut/DontMissOut';
 
 const Home = () => (
   <div className="Home">
-    Home Component
+    <HowItWorks />
+    <KeepRecord />
+    <BeAnEcologiist />
+    <DontMissOut />
   </div>
 );
 
