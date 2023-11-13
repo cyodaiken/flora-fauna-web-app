@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import {Link} from "react-router-dom";
 
 function Footer() {
 
@@ -9,7 +10,7 @@ function Footer() {
 
                     <div className="col-md-3 mx-auto text-center">
                         <p>
-                            <a href="#!">About</a>
+                            <Link to="/about">About</Link>
                         </p>
                         <p>
                             <a href="#!">Help</a>
