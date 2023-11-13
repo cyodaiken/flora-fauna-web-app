@@ -9,7 +9,6 @@ import Explore from "./Explore";
 import Observation from "./Explore/Observation";
 import Species from "./Explore/Species";
 import Observers from "./Explore/Observers";
-import Observe from "./Explore/Observe";
 import Community from "./Community";
 import Profile from "./Community/profile";
 
@@ -28,7 +27,6 @@ function Ecologist() {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Explore" element={<Explore />} />
                 <Route path="/Explore/:observationId" element={<Observation />} />
-                <Route path="/Explore/:observationId" element={<Observe />} />
                 <Route path="/Community" element={<Community />} />
                 <Route path="/Community/:userId" element={<Profile />} />
 
