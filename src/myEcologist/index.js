@@ -5,10 +5,14 @@ import Home from "./Home/Home";
 import Footer from "./Footer";
 import Login from "./Login/Login";
 import Explore from "./Explore";
-import Observe from "./Explore/Observe";
+import Observation from "./Explore/Observation";
+import Species from "./Explore/Species";
+import Observers from "./Explore/Observers";
+
 
 
 function Ecologist() {
+
     return (
         <BrowserRouter>
             <Header />
@@ -17,7 +21,8 @@ function Ecologist() {
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Explore" element={<Explore />} />
-                <Route path="/Explore/:observationId" element={<Observe />} />
+                <Route path="/Explore/:observationId" element={<Observation />} />
+
             </Routes>
             <Footer />
         </ BrowserRouter>

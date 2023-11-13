@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import React from 'react';
 import { FaRegUserCircle } from "react-icons/fa";
 
-function Observe() {
+function Observation() {
   const { observationId } = useParams();
   const observation = db.observations.find(obs => obs.id === parseInt(observationId));
 
@@ -52,5 +52,5 @@ function Observe() {
     </div>
   );
 }
-export default Observe;
+export default Observation;
 
