@@ -17,9 +17,7 @@ function Ecologist() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
-      {/*<HomeMainCarousel />
-      <HomeCommunityCarousel />
-  <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
