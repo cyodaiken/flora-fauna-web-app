@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Login from "./Login/Login";
 import HomeMainCarousel from "./Home/Carousel/Home/Carousel";
 import HomeCommunityCarousel from "./Home/CommunityCarousel/CommunityCarousel";
+import SignUp from "./Login/SignUp";
 
 function Ecologist() {
   return (
@@ -14,10 +15,11 @@ function Ecologist() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
-      <HomeMainCarousel />
+      {/*<HomeMainCarousel />
       <HomeCommunityCarousel />
-      <Footer />
+  <Footer /> */}
     </BrowserRouter>
   );
 }

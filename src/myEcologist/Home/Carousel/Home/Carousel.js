@@ -51,19 +51,6 @@ const HomeMainCarousel = () => {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-
-      <div>
-        <input type="radio" name="radio" id="ABC" />
-        ABC
-      </div>
-      <label>
-        <input type="radio" name="radio" id="ABC" />
-        ABC
-      </label>
-      <label>
-        <input type="radio" name="radio" id="ABC" />
-        ABC
-      </label>
     </div>
   );
 };
