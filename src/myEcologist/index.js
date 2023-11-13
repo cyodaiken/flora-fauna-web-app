@@ -4,6 +4,7 @@ import Header from "./Header";
 import Home from "./Home/Home";
 import Footer from "./Footer";
 import Login from "./Login/Login";
+import About from "./About/About"
 
 function Ecologist() {
     return (
@@ -12,6 +13,7 @@ function Ecologist() {
             <Routes>
                 <Route path="/home" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/about" element={<About />} />
             </Routes>
             <Footer />
         </ BrowserRouter>
