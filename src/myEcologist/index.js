@@ -4,8 +4,6 @@ import Header from "./Header";
 import Home from "./Home/Home";
 import Footer from "./Footer";
 import Login from "./Login/Login";
-import HomeMainCarousel from "./Home/Carousel/Home/Carousel";
-import HomeCommunityCarousel from "./Home/CommunityCarousel/CommunityCarousel";
 import SignUp from "./Login/SignUp";
 import About from "./About/About";
 import Explore from "./Explore";
@@ -24,6 +22,7 @@ function Ecologist() {
         <Route path="/Home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
         <Route path="/Explore" element={<Explore />} />
         <Route path="/Explore/:observationId" element={<Observation />} />
         <Route path="/Community" element={<Community />} />
