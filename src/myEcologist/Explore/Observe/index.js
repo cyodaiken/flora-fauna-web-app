@@ -6,6 +6,7 @@ import React from 'react';
 import { FaRegUserCircle } from "react-icons/fa";
 
 function Observe() {
+  
   const { observationId } = useParams();
   const observation = db.observations.find(obs => obs.id === parseInt(observationId));
 

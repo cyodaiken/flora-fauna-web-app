@@ -1,0 +1,13 @@
+.profile-pic {
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* Media query for screens that are 760px wide or less */
+  @media (max-width: 760px) {
+    .profile-pic {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
