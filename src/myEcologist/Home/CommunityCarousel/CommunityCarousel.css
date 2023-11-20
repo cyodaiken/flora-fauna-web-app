@@ -1,0 +1,12 @@
+.community-user-image-div > img {
+  width: 20vh;
+  height: 20vh;
+}
+
+.community-text > p {
+  font-size: 2vh;
+}
+
+.carousel-align-center {
+  text-align: center;
+}
