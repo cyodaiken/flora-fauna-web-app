@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.min.js";
 import './DontMissOut.css';
+import { Link } from "react-router-dom";
 
 function DontMissOut() {
 
@@ -12,7 +13,7 @@ function DontMissOut() {
                 </div>
 
                 <div className='col-6'>
-                    <button className='btn btn-success join-now-btn float-end'>Join Now</button>
+                    <Link to={`/Signup`}><button className='btn btn-success join-now-btn float-end'>Join Now</button></Link>
                 </div>
             </div>
         </div>
