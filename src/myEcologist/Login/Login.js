@@ -22,7 +22,7 @@ const Login = () => {
           <a href="#">
             <img
               src="Images/myEcologist.svg"
-              height="40"
+              height="35"
               className="d-inline-block align-text-top"
             />
           </a>

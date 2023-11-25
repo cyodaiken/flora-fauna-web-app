@@ -39,7 +39,7 @@ const SignUp = () => {
           <a href="#">
             <img
               src="Images/myEcologist.svg"
-              height="40"
+              height="35"
               className="d-inline-block align-text-top"
             />
           </a>
@@ -115,7 +115,7 @@ const SignUp = () => {
         </Form>
       </div>
       
-      <div className="col-6 d-none m-md-block">
+      <div className="col-6 d-none d-md-block">
         <img className="login-display-image" src="Images/coyote.svg" alt="Login Display"/>
       </div>
     </div>
