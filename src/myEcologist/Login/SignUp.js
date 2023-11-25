@@ -34,12 +34,12 @@ const SignUp = () => {
 
   return (
     <div className="row background-color-left align-items-center main-login">
-      <div className="col-6 text-center">
+      <div className="col-12 col-md-6 text-center">
         <div className="row company-logo mb-3">
           <a href="#">
             <img
               src="Images/myEcologist.svg"
-              height="40"
+              height="35"
               className="d-inline-block align-text-top"
             />
           </a>
@@ -104,7 +104,7 @@ const SignUp = () => {
           </Form.Group>
 
           <Button
-            className="form-submit-button mt-3"
+            className="form-submit-button mt-3 mb-3"
             block
             size="lg"
             type="submit"
@@ -114,12 +114,9 @@ const SignUp = () => {
           </Button>
         </Form>
       </div>
-      <div className="col-6 p-0 m-0 login-image">
-        <img
-          className="login-display-image"
-          src="https://i1.adis.ws/i/canon/pca---wildlife-photography---wildlife-tips-intro-page-shutterstock_760566388_94cf75c81a874ceab4a474493862d708?$media-collection-full-dt$"
-          alt="Login Display"
-        />
+      
+      <div className="col-6 d-none d-md-block">
+        <img className="login-display-image" src="Images/coyote.svg" alt="Login Display"/>
       </div>
     </div>
   );
