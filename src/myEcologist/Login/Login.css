@@ -3,13 +3,17 @@
   margin: 0 auto;
   border: 2px solid gray !important;
   border-radius: 25px;
-  color: darkblue !important;
+  color: #082963!important;
   background-color: white !important;
 }
 
 .login-form {
   text-align: center;
   margin: 0 auto;
+}
+
+.sign-up-link {
+  color: #082963;
 }
 
 .background-color-left {
