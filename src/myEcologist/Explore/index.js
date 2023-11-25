@@ -3,11 +3,16 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import './index.css';
 import db from '../Database';
 import { Link, Route, useParams } from 'react-router-dom';
-import React, { useState } from 'react';
+
+import React, { useLayoutEffect, useState } from 'react';
 
 function Explore() {
     const uniqueSpecies = new Set(db.observations.map(observation => observation.species_guess));
-    const uniqueObservers = new Set(db.observations.map(observation => observation.user_id));
+    // const uniqueObservers = new Set(db.observations.map(observation => observation.user_id));
+
+    const userNames = db.observations.map(observation => observation.user_name);
+    const numUniqueObservers = new Set(userNames);
+    const uniqueObservers = Array.from(numUniqueObservers);
 
     const itemsPerPage = 39;
     const maxPageNumbersToShow = 9;
@@ -49,12 +54,18 @@ function Explore() {
         if (!speciesDictionary[observation.common_name]) {
             speciesDictionary[observation.common_name] = {
                 scientific_name: observation.scientific_name,
-                image_urls: [observation.image_url]
+                image_urls: [observation.image_url],
+                numObservations: 1
             };
         } else {
             speciesDictionary[observation.common_name].image_urls.push(observation.image_url);
+            speciesDictionary[observation.common_name].numObservations += 1;
         }
     });
+    const sortedSpeciesKeys = Object.keys(speciesDictionary).sort((a, b) => {
+        return speciesDictionary[b].numObservations - speciesDictionary[a].numObservations;
+    });
+
     const totalPagesSpecies = Math.ceil(Object.keys(speciesDictionary).length / itemsPerPage);
     const pageNumbersSpecies = Array.from({ length: totalPagesSpecies }, (_, index) => index + 1);
     let startPageSpecies = Math.max(1, currentPageSpecies - Math.floor(maxPageNumbersToShow / 2));
@@ -63,26 +74,92 @@ function Explore() {
         startPageSpecies = endPageSpecies - maxPageNumbersToShow + 1;
     }
 
-    const speciesCards = Object.keys(speciesDictionary)
+    const speciesCards = sortedSpeciesKeys
     .slice((currentPageSpecies - 1) * itemsPerPage, currentPageSpecies * itemsPerPage)
     .map((commonName) => (
-        <Link
-            key={commonName}
-            to={`${commonName}`} 
-            className="card"
-        >
+        <div key={commonName} to={`${commonName}`} className="card">
             <img className="card-head" src={speciesDictionary[commonName].image_urls[0]} alt={commonName} />
             <div className="card-body">
                 <div style={{ fontWeight: 'bold' }}>
                     {commonName}
                 </div>
                 <div>
-                    ({speciesDictionary[commonName].scientific_name})
+                    ({speciesDictionary[commonName].scientific_name}) - {speciesDictionary[commonName].numObservations} observations
                 </div>
             </div>
-        </Link>
+        </div>
     ));
+    
+    // Observers
+    const observerCounts = {};
+    db.observations.forEach(observation => {
+        const userName = observation.user_name;
+        if (userName !== "") {
+            observerCounts[userName] = (observerCounts[userName] || 0) + 1;
+        }
+    });
 
+    const observers = uniqueObservers
+        .filter(userName => userName !== null)  // Filter out observers with null user_name
+        .map(userName => ({
+            userName,
+            observationCount: observerCounts[userName] || 0
+        }));
+
+    observers.sort((a, b) => b.observationCount - a.observationCount);
+
+    const [currentPageObservers, setCurrentPageObservers] = useState(1);
+    const totalPagesObservers = Math.ceil(observers.length / itemsPerPage);
+    const pageNumbersObservers = Array.from({ length: totalPagesObservers }, (_, index) => index + 1);
+    let startPageObservers = Math.max(1, currentPageObservers - Math.floor(maxPageNumbersToShow / 2));
+    let endPageObservers = Math.min(totalPagesObservers, startPageObservers + maxPageNumbersToShow - 1);
+
+    const observerList = (
+        <div className="table-responsive">
+            <table className="table table-striped table-bordered">
+                <thead className="thead-dark">
+                    <tr>
+                        <th scope="col" style={{ width: '10%' }}>Rank</th>
+                        <th scope="col" style={{ width: '70%' }}>User</th>
+                        <th scope="col" style={{ width: '10%' }}>Observations</th>
+                        <th scope="col" style={{ width: '10%' }}>Species</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {observers
+                        .map((observer, index) => ({
+                            ...observer,
+                            rank: index + 1,
+                            speciesCount: getSpeciesCountForUser(observer.userName),
+                        }))
+                        .slice((currentPageObservers - 1) * itemsPerPage, currentPageObservers * itemsPerPage)
+                        .map((observer) => (
+                            <tr key={observer.userName}>
+                                <th scope="row">{observer.rank}</th>
+                                <td style={{ fontWeight: 'bold' }}>{observer.userName}</td>
+                                <td>{observer.observationCount}</td>
+                                <td>{observer.speciesCount}</td>
+                            </tr>
+                        ))}
+                </tbody>
+            </table>
+        </div>
+    );
+    
+  
+    
+
+    // Function to get species count for the user
+    function getSpeciesCountForUser(userName) {
+        const speciesSet = new Set();
+        db.observations.forEach((observation) => {
+            if (observation.user_name === userName) {
+                speciesSet.add(observation.common_name);
+            }
+        });
+        return speciesSet.size;
+    }
+    observers.sort((a, b) => b.observationCount - a.observationCount);
 
     const handlePageChangeObservations = (pageNumber) => {
         if (pageNumber >= 1 && pageNumber <= totalPagesObservations) {
@@ -93,6 +170,12 @@ function Explore() {
     const handlePageChangeSpecies = (pageNumber) => {
         if (pageNumber >= 1 && pageNumber <= totalPagesSpecies) {
             setCurrentPageSpecies(pageNumber);
+        }
+    };
+
+    const handlePageChangeObservers = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPagesObservers) {
+            setCurrentPageObservers(pageNumber);
         }
     };
 
@@ -114,7 +197,7 @@ function Explore() {
                     SPECIES
                 </button>
                 <button className="custom-nav-link d-flex align-items-center col-lg-2 border-0" id="pills-observers-tab" data-bs-toggle="pill" data-bs-target="#pills-observers" type="button" role="tab" aria-controls="pills-observers" aria-selected="false">
-                    {uniqueObservers.size} <br />
+                    {numUniqueObservers.size} <br />
                     OBSERVERS
                 </button>
             </ul>
@@ -175,7 +258,30 @@ function Explore() {
                 </div>
 
                 <div className="tab-pane fade" id="pills-observers" role="tabpanel" aria-labelledby="pills-observers-tab">
-                    observers
+                <div className="container my-5">
+                        <div className="justify-content-center flex-wrap gap-4">
+                            {observerList}
+                        </div>
+                    </div>
+                    <div className="pagination justify-content-center pb-4">
+                        <button onClick={() => handlePageChangeObservers(currentPageObservers - 1)} disabled={currentPageObservers === 1}>
+                                {"<"}
+                        </button>
+                        {pageNumbersObservers
+                            .slice(startPageObservers - 1, endPageObservers)
+                            .map((pageNumber) => (
+                                <button
+                                    key={pageNumber}
+                                    onClick={() => handlePageChangeObservers(pageNumber)}
+                                    className={`${currentPageObservers === pageNumber ? 'active' : ''}`}
+                                >
+                                    {pageNumber}
+                                </button>
+                            ))}
+                        <button onClick={() => handlePageChangeObservers(currentPageObservers + 1)} disabled={currentPageObservers === totalPagesObservers}>
+                            {">"}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

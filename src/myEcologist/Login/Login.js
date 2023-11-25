@@ -23,7 +23,7 @@ const Login = () => {
           <a href="#">
             <img
               src="Images/myEcologist.svg"
-              height="40"
+              height="35"
               className="d-inline-block align-text-top"
             />
           </a>
@@ -68,15 +68,12 @@ const Login = () => {
             Login
           </Button>
         </Form>
-        <div className="row mt-3">
-          <Link to={`/Signup`}>Don't have an account? Sign up.</Link>
+        <div className="row mt-3 mb-3">
+          <Link className="sign-up-link" to={`/Signup`}>Don't have an account? Sign up.</Link>
         </div>
       </div>
       <div className="col-6 d-none d-md-block">
-        <img
-          className="login-display-image"
-          src="https://i1.adis.ws/i/canon/pca---wildlife-photography---wildlife-tips-intro-page-shutterstock_760566388_94cf75c81a874ceab4a474493862d708?$media-collection-full-dt$"
-        ></img>
+        <img className="login-display-image" src="Images/seaLion.svg"></img>
       </div>
     </div>
   );

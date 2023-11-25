@@ -3,7 +3,6 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "./index.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
-// import { BsFillPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 function Header() {
   return (
@@ -44,49 +43,6 @@ function Header() {
                 Community
               </a>
             </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                More
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Taxa Info
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Places
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Help
-                  </a>
-                </li>
-              </ul>
-            </li>
-            {/* 
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <BsFillPersonFill /> 
-                            </a>
-
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a className="dropdown-item" href="#">Login</a></li>
-                                <li><a className="dropdown-item" href="#">Sign Up</a></li>
-                            </ul>
-                        </li> */}
           </ul>
 
           <form className="d-flex">
@@ -101,22 +57,11 @@ function Header() {
             </button>
           </form>
 
-          {/* <ul className="navbar-nav ms-3 mb-2 mb-lg-0">
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <BsFillPersonFill />
-                            </a>
-
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a className="dropdown-item" href="#">Login</a></li>
-                                <li><a className="dropdown-item" href="#">Sign Up</a></li>
-                            </ul>
-                        </li>
-                    </ul> */}
-
           <ul className="navbar-nav  nav-link ms-2 mb-2 mb-lg-0 ">
             <li className="nav-item remove-link">
-              <Link to={`/Login`}>Login</Link>
+              <Link className="nav-link" to={`/Login`}>
+                Login
+              </Link>
             </li>
           </ul>
         </div>

@@ -8,21 +8,22 @@ nav.wd-header .nav-link a {
 
 nav.wd-header .nav-item .nav-link {
   color: white;
+  text-decoration: none;
 }
 
-nav.wd-header ul.dropdown-menu .dropdown-item {
-  color: white;
-  background-color: #082963;
-}
+/* nav.wd-header ul.dropdown-menu .dropdown-item {
+    color: white;
+    background-color: #082963;
+} */
 
-nav.wd-header ul.dropdown-menu hr.dropdown-divider {
-  border-color: rgba(213, 213, 213, 0.5);
-}
+/* nav.wd-header ul.dropdown-menu hr.dropdown-divider {
+    border-color: rgba(213, 213, 213, 0.5);
+} */
 
-nav.wd-header ul.dropdown-menu {
-  background-color: #082963;
-  border: none;
-}
+/* nav.wd-header ul.dropdown-menu  {
+    background-color: #082963;
+    border: none;
+} */
 
 nav.wd-header .nav-item .nav-link.active {
   font-weight: bold;

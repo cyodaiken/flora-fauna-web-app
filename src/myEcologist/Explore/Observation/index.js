@@ -49,6 +49,17 @@ function Observation() {
         </div>
         </div>
       </div>
+      {observation.latitude && observation.longitude && (
+        <div className="mt-4">
+          <h4 className="mb-3">Observation Location on Map</h4>
+          <iframe
+            width="100%"
+            height="500"
+            allowFullScreen
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=${observation.latitude},${observation.longitude}`}
+          ></iframe>
+        </div>
+      )}
     </div>
   );
 }

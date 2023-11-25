@@ -10,7 +10,6 @@ import SignUp from "./Login/SignUp";
 import About from "./About/About";
 import Explore from "./Explore";
 import Observation from "./Explore/Observation";
-import Species from "./Explore/Species";
 import Observers from "./Explore/Observers";
 import Community from "./Community";
 import Profile from "./Community/profile";
