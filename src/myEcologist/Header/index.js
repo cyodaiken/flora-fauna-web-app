@@ -114,8 +114,8 @@ function Header() {
                         </li>
                     </ul> */}
 
-          <ul className="navbar-nav ms-2 mb-2 mb-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-nav  nav-link ms-2 mb-2 mb-lg-0 ">
+            <li className="nav-item remove-link">
               <Link to={`/Login`}>Login</Link>
             </li>
           </ul>

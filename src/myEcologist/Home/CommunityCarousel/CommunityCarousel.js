@@ -1,7 +1,7 @@
-import React from "react";
-import { useState } from "react";
-import "./CommunityCarousel.css";
+import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
+import { MdLocationOn } from "react-icons/md";
+import "./CommunityCarousel.css";
 
 const HomeCommunityCarousel = () => {
   const [index, setIndex] = useState(0);
@@ -10,107 +10,77 @@ const HomeCommunityCarousel = () => {
     setIndex(selectedIndex);
   };
 
+  /*Keep description <400 letters limit */
+  const testimonials = [
+    {
+      title: "Invaluable Resource",
+      content:
+        "I use iNaturalist to share information with other people who are interested in Madagascan plants. It is also an opportunity for me to validate the photos and information recorded during field trips, and to provide information on species distribution for the IUCN Red List assessments.",
+      author: "Hélène Ralimanana",
+      role: "Team Manager, Kew Madagascar Conservation Centre",
+      imageUrl:
+        "https://www.svgrepo.com/show/382100/female-avatar-girl-face-woman-user-7.svg",
+      location: "Madagascar",
+    },
+    {
+      title: "A Nature Enthusiast's Dream",
+      content:
+        "As a child I was constantly outside searching for bugs and other creatures. Unfortunately that need to explore faded away as I became older. Now that I've been hiking more often, this site has helped bring back that side of myself. I don't just look at a plant and see a plant. I get close enough to see what could be crawling on that plant, and I want to know everything about it.",
+      author: "Danielle Doyle",
+      role: "Actress, Amateur Naturalist",
+      imageUrl:
+        "https://www.svgrepo.com/show/382100/female-avatar-girl-face-woman-user-7.svg",
+      location: "Oakland, California, USA",
+    },
+    {
+      title: "Educational and Fun",
+      content:
+        "No matter where in the world you are, iNaturalist brings people together. Whether you have a PhD or just love the outdoors, iNaturalist will bring you closer to nature and many fellow naturalists. Viva Naturalista!!",
+      author: "Carlos G. Velazco Macias",
+      role: "Biologist",
+      imageUrl:
+        "https://www.svgrepo.com/show/382100/female-avatar-girl-face-woman-user-7.svg",
+      location: "Mexico",
+    },
+  ];
+
   return (
-    <div className="justify-content-center text-center">
-      <h3 className="mt-4">Community Members of MyEcologist</h3>
-      <Carousel
-        activeIndex={index}
-        onSelect={handleSelect}
-        className="carousel-align-center pt-3 pb-3"
-      >
-        <Carousel.Item>
-          <div className="row d-flex justify-content-center m-2">
-            <div className="col-8  text-center align-middle">
-              <div className="row">
-                <div className="justify-content-center text-center">
-                  <h3>"Best site ever! part 1"</h3>
-                </div>
+    <div className="community-carousel-container">
+      <h3 className="community-carousel-title">
+        Community Members of MyEcologist
+      </h3>
+      <Carousel activeIndex={index} onSelect={handleSelect} interval={3000}>
+        {testimonials.map((testimonial, idx) => (
+          <Carousel.Item key={idx}>
+            <div className="testimonial-content-container">
+              <div className="testimonial-text">
+                <blockquote className="blockquote">
+                  <p className="mb-0">{testimonial.content}</p>
+                </blockquote>
+                <footer className="blockquote-footer">
+                  <a
+                    href={"/profile/${testimonial.author}"}
+                    className="author-link"
+                  >
+                    {testimonial.author}
+                  </a>
+                  <div className="author-role">{testimonial.role}</div>
+                  <div className="testimonial-location">
+                    <MdLocationOn className="location-icon" />
+                    {testimonial.location}
+                  </div>
+                </footer>
               </div>
-              <div className="community-text row">
-                <p className="text-right align-middle">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                  et deleniti nesciunt sint eligendi reprehenderit reiciendis,
-                  quibusdam illo, beatae quia fugit consequatur laudantium velit
-                  magnam error. Consectetur distinctio fugit doloremque.
-                </p>
-              </div>
-              <div className="community-text row">
-                <p className="text-muted text-right align-middle">
-                  Tom Brailey ~ Photographer
-                </p>
-              </div>
-            </div>
-            <div className="col-4 community-user-image-div text-center">
-              <img
-                className="rounded-circle shadow-1-strong"
-                src="https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png"
-                alt="avatar"
-              />
-            </div>
-          </div>
-        </Carousel.Item>
-        <Carousel.Item>
-          <div className="row d-flex justify-content-center m-2">
-            <div className="col-8 text-center align-middle">
-              <div className="row">
-                <div className="justify-content-center text-center">
-                  <h3>"Best site ever! part 2"</h3>
-                </div>
-              </div>
-              <div className=" community-text row">
-                <p className="text-right align-middle">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                  et deleniti nesciunt sint eligendi reprehenderit reiciendis,
-                  quibusdam illo, beatae quia fugit consequatur laudantium velit
-                  magnam error. Consectetur distinctio fugit doloremque.
-                </p>
-              </div>
-              <div className=" community-text row">
-                <p className="text-muted text-right align-middle">
-                  Tom Brailey ~ Photographer
-                </p>
+              <div className="testimonial-image-container">
+                <img
+                  className="testimonial-image rounded-circle shadow-1-strong"
+                  src={testimonial.imageUrl}
+                  alt={testimonial.author}
+                />
               </div>
             </div>
-            <div className="col-4 community-user-image-div text-center">
-              <img
-                className="rounded-circle shadow-1-strong"
-                src="https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png"
-                alt="avatar"
-              />
-            </div>
-          </div>
-        </Carousel.Item>
-        <Carousel.Item>
-          <div className="row d-flex justify-content-center m-2">
-            <div className="col-8 text-center align-middle">
-              <div className="row">
-                <div className="justify-content-center text-center">
-                  <h3>"Best site ever! part 3"</h3>
-                </div>
-              </div>
-              <div className=" community-text row">
-                <p className="text-right align-middle">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                  et deleniti nesciunt sint eligendi reprehenderit reiciendis,
-                  quibusdam illo, beatae quia fugit consequatur laudantium velit
-                  magnam error. Consectetur distinctio fugit doloremque.
-                </p>
-              </div>
-              <div className="community-text row">
-                <p className="text-muted text-right align-middle">
-                  Tom Brailey ~ Photographer
-                </p>
-              </div>
-            </div>
-            <div className="col-4 community-user-image-div text-center">
-              <img
-                className="rounded-circle shadow-1-strong"
-                src="https://cdn.pixabay.com/photo/2021/02/12/07/03/icon-6007530_1280.png"
-                alt="avatar"
-              />
-            </div>
-          </div>
-        </Carousel.Item>
+          </Carousel.Item>
+        ))}
       </Carousel>
     </div>
   );

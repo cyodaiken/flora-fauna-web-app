@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+
 const Login = () => {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
 
   function validateForm() {
@@ -15,6 +15,7 @@ const Login = () => {
   function handleSubmit(event) {
     event.preventDefault();
   }
+
   return (
     <div className="row background-color-left align-items-center main-login">
       <div className="col-12 col-md-6 text-center">
@@ -49,6 +50,13 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
+
+          {/* Forgot Password Link */}
+          <div className="mt-2">
+            <Link to="/forgot-password" className="forgot-password-link">
+              Forgot Password?
+            </Link>
+          </div>
 
           <Button
             className="form-submit-button mt-3"

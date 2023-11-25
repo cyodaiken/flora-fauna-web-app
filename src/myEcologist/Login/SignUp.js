@@ -34,7 +34,7 @@ const SignUp = () => {
 
   return (
     <div className="row background-color-left align-items-center main-login">
-      <div className="col-6 text-center">
+      <div className="col-12 col-md-6 text-center">
         <div className="row company-logo mb-3">
           <a href="#">
             <img
@@ -114,7 +114,7 @@ const SignUp = () => {
           </Button>
         </Form>
       </div>
-      <div className="col-6 p-0 m-0 login-image">
+      <div className="col-6 d-none d-md-block">
         <img
           className="login-display-image"
           src="https://i1.adis.ws/i/canon/pca---wildlife-photography---wildlife-tips-intro-page-shutterstock_760566388_94cf75c81a874ceab4a474493862d708?$media-collection-full-dt$"
