@@ -34,7 +34,7 @@ const SignUp = () => {
 
   return (
     <div className="row background-color-left align-items-center main-login">
-      <div className="col-12 col-md-12 col-md-6 text-center">
+      <div className="col-12 col-md-6 text-center">
         <div className="row company-logo mb-3">
           <a href="#">
             <img
@@ -47,7 +47,10 @@ const SignUp = () => {
         <div className="row mb-3">
           <h3>Sign Up</h3>
         </div>
-        <Form className="row w-50 login-form" onSubmit={handleSubmit}>
+        <Form
+          className="row w-50 custom-width login-form"
+          onSubmit={handleSubmit}
+        >
           <Form.Group className="mt-3" size="lg" controlId="email">
             <Form.Control
               autoFocus

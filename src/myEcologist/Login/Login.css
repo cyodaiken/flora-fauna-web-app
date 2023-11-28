@@ -23,7 +23,7 @@
   margin: 0 auto;
   border: 2px solid gray !important;
   border-radius: 25px;
-  color: darkblue !important;
+  color: #082963 !important;
   background-color: white !important;
 }
 
@@ -38,7 +38,7 @@
 .forgot-password-link,
 .signup-link {
   display: block;
-  color: #007bff;
+  color: #082963 !important;
   text-decoration: none;
   margin-bottom: 15px;
 }
@@ -46,4 +46,11 @@
 .forgot-password-link:hover,
 .signup-link:hover {
   text-decoration: underline;
+}
+
+/* Custom width for form elements */
+@media (min-width: 768px) and (max-width: 991px) {
+  .custom-width {
+    width: 75% !important;
+  }
 }
