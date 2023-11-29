@@ -1,1 +1,36 @@
-.Login {}
+.form-submit-button {
+  width: 75%;
+  margin: 0 auto;
+  border: 2px solid gray !important;
+  border-radius: 25px;
+  color: #082963!important;
+  background-color: white !important;
+}
+
+
+.login-form {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.sign-up-link {
+  color: #082963;
+}
+
+.background-color-left {
+  background-color: #e0e9f8;
+}
+.company-logo {
+  margin: 10px auto;
+  background-color: #082963;
+  height: 100%;
+  width: fit-content;
+  object-fit: contain;
+  padding: 20px;
+  border-radius: 100px;
+}
+
+.login-display-image {
+  width: 100%;
+  object-fit: cover;
+}

@@ -1,1 +1,13 @@
-.HomeCarousel {}
+.carousel-image {
+  width: 200vh;
+  height: 75vh;
+}
+
+.carousel-align-center {
+  text-align: center;
+}
+
+.carousel-text-to-left {
+  align-items: baseline;
+  text-align: start;
+}
