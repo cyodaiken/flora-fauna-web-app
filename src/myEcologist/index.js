@@ -13,6 +13,7 @@ import Observation from "./Explore/Observation";
 import Observers from "./Explore/Observers";
 import Community from "./Community";
 import Profile from "./Community/profile";
+import Results from "./Results/Results";
 
 function Ecologist() {
   return (
@@ -28,6 +29,7 @@ function Ecologist() {
         <Route path="/Explore/:observationId" element={<Observation />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/Community/:userId" element={<Profile />} />
+        <Route path="/Results/:query" element={<Results />} />
       </Routes>
       <Footer />
     </BrowserRouter>

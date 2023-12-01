@@ -1,10 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./index.css";
+
+import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 function Header() {
+
+  const [query, setQuery] = useState("");
+
+  const navigate = useNavigate();
+
   return (
     <nav className="navbar navbar-expand-lg wd-header">
       <div className="container-fluid">
@@ -43,7 +51,7 @@ function Header() {
                 Community
               </a>
             </li>
-    
+
           </ul>
 
           <form className="d-flex">
@@ -52,8 +60,13 @@ function Header() {
               type="search"
               placeholder="Search"
               aria-label="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
-            <button className="btn btn-outline-light" type="submit">
+            <button className="btn btn-outline-light" type="button" onClick={() => {
+              navigate("/Results/" + query)
+            }
+            }>
               <AiOutlineSearch />
             </button>
           </form>
