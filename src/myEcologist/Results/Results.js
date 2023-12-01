@@ -18,17 +18,14 @@ function Results() {
     useEffect(() => { search(query); }, []);
 
     return (
-        <>
+        <div className='m-3'>
             <h3>Search Results</h3>
             {data.map((hit => {
                 return (
-                    <div dangerouslySetInnerHTML={{__html: hit.snippet}}>
-                    
-                    </div>
+                    <div dangerouslySetInnerHTML={{__html: hit.snippet}}></div>
                 )
             }))}
-
-        </>
+        </div>
     );
 }
 
