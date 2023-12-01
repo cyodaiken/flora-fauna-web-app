@@ -7,6 +7,7 @@ function AddObservation() {
     const [observation, setObservation] = useState({});
     const navigate = useNavigate(); 
 
+    
     const addObservations = async () => {
         const newObservation = await client.addNewExplore(observation);
         setObservations([...observations, newObservation]);
@@ -20,7 +21,7 @@ function AddObservation() {
             type="text"
             className="form-control mb-2"
             onChange={(e) =>
-                setObservation({ ...observation, title: e.target.value})
+                setObservation({ ...observation, common_name: e.target.value})
             }/>
 
         <button onClick={addObservations}>Add Observation</button>

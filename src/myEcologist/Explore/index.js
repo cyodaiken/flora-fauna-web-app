@@ -232,12 +232,13 @@ function Explore() {
             <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="pills-observation" role="tabpanel" aria-labelledby="pills-observation-tab">
                     <div className="container my-5">
-                        <button className="btn btn-primary" >
+                        {/* <button className="btn btn-primary" >
                             <Link to="/Explore/addObservation" 
-                                className="text-decoration-none text-white" style={{color: "black"}}>
+                                className="text-decoration-none text-white" 
+                                style={{color: "black"}}>
                                 Add Observation
                             </Link>
-                        </button>
+                        </button> */}
                         <div className="d-flex justify-content-center flex-wrap gap-4">
                             {observationsList}
                         </div>
