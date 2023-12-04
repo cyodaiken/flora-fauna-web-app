@@ -1,42 +1,50 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.min.js';
-import db from '../../Database';
-import { useParams } from 'react-router-dom';
-import React from 'react';
-import {BsFillCalendar2DateFill} from "react-icons/bs";
-import {AiOutlineClockCircle} from "react-icons/ai";
-import {MdMarkEmailRead} from "react-icons/md";
-import {FaBinoculars} from "react-icons/fa";
-import {BiSolidLeaf} from "react-icons/bi";
-import {BsShieldFillExclamation} from "react-icons/bs";
-import {IoIosJournal} from "react-icons/io";
-import {BsReverseListColumnsReverse} from "react-icons/bs";
-import {FaPeopleArrows} from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
+import { useParams } from "react-router";
+import React, { useState, useEffect } from "react";
+import { BsFillCalendar2DateFill } from "react-icons/bs";
+import { AiOutlineClockCircle } from "react-icons/ai";
+import { MdMarkEmailRead } from "react-icons/md";
+import { FaBinoculars } from "react-icons/fa";
+import { BiSolidLeaf } from "react-icons/bi";
+import { BsShieldFillExclamation } from "react-icons/bs";
+import { IoIosJournal } from "react-icons/io";
+import { BsReverseListColumnsReverse } from "react-icons/bs";
+import { FaPeopleArrows } from "react-icons/fa";
+import * as client from "../client";
 
-function Profile () {
-    
+function Profile() {
+  const { userId } = useParams();
+  console.log(userId);
 
-    const {userId} = useParams();
-   
-    const user = db.users.find(usr => usr.user_id === userId);
+  const [user, setUser] = useState({
+    created_at: "",
+    last_login: "",
+  });
 
-    
-    console.log(user)
- 
+  const fetchUser = async () => {
+    const getUser = await client.fetchUser(userId);
+    console.log(getUser);
+    setUser(getUser);
+  };
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
+  return (
+    <div className="container my-4">
+      <div className="row">
+        <div className="col-md-4 col-sm-6 order-md-1 order-1">
+          <h3>PROFILE</h3>
+          <h2>{user.email}</h2>
+          <img
+            src={user.profile_pic}
+            style={{ width: "300px", height: "300px" }}
+          />
+        </div>
 
-    return (
-      <div className="container my-4">
-        <div className="row">
-          <div className="col-md-4 col-sm-6 order-md-1 order-1">
-            <h3>PROFILE</h3>
-            <h2>{user.email}</h2>
-            <img
-              src={user.profile_pic}
-              style={{ width: "300px", height: "300px" }}
-            />
-          </div>
+        {user && (
           <div className="col-md-8 col-sm-6 order-md-2 order-2">
             <h2>{user.given_name}</h2>
             <BsFillCalendar2DateFill
@@ -66,48 +74,47 @@ function Profile () {
               sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-3 d-none d-md-block" style={{ marginTop: 10 }}>
-            <div class="list-group">
-              <a
-                class="list-group-item"
-                href="#"
-              >
-               <FaBinoculars style={{color: "green", marginRight:10}}/> Observations
-              </a>
-              <a class="list-group-item" href="#">
-               <BiSolidLeaf style={{color: "green", marginRight:10}}/> Species
-              </a>{" "}
-              <a class="list-group-item" href="#">
-              <BsShieldFillExclamation style={{color:"green", marginRight:10}}/>  Identifications
-              </a>{" "}
-              <a class="list-group-item" href="#">
-                <IoIosJournal style={{color:"green", marginRight:10}}/>
-                Journal Posts
-              </a>{" "}
-              <a class="list-group-item" href="#">
-              <BsReverseListColumnsReverse style={{color:"green", marginRight:10}}/>
-                Lists
-              </a>{" "}
-              <a class="list-group-item" href="#">
-               <FaPeopleArrows style={{color:"green", marginRight:10}}/>
-                Followers
-              </a>
-            </div>
+        )}
+      </div>
+      <div className="row">
+        <div className="col-md-3 d-none d-md-block" style={{ marginTop: 10 }}>
+          <div class="list-group">
+            <a class="list-group-item" href="#">
+              <FaBinoculars style={{ color: "green", marginRight: 10 }} />{" "}
+              Observations
+            </a>
+            <a class="list-group-item" href="#">
+              <BiSolidLeaf style={{ color: "green", marginRight: 10 }} />{" "}
+              Species
+            </a>{" "}
+            <a class="list-group-item" href="#">
+              <BsShieldFillExclamation
+                style={{ color: "green", marginRight: 10 }}
+              />{" "}
+              Identifications
+            </a>{" "}
+            <a class="list-group-item" href="#">
+              <IoIosJournal style={{ color: "green", marginRight: 10 }} />
+              Journal Posts
+            </a>{" "}
+            <a class="list-group-item" href="#">
+              <BsReverseListColumnsReverse
+                style={{ color: "green", marginRight: 10 }}
+              />
+              Lists
+            </a>{" "}
+            <a class="list-group-item" href="#">
+              <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
+              Followers
+            </a>
           </div>
-          
         </div>
       </div>
-    );
-       
-
-
-};
+    </div>
+  );
+}
 
 export default Profile;
-
-
 
 //  <div className="container my-4">
 //         <div className="row">
@@ -117,7 +124,7 @@ export default Profile;
 //             <img src={user.profile_pic} style={{ width: '300px', height: '300px' }} />
 //             <div className='col-6 d-flex float-end'>
 //                 <h2>Description</h2>
-                
+
 //             </div>
 //           </div>
 //           <div className="col-12 col-xl-6 mt-5">
@@ -136,16 +143,15 @@ export default Profile;
 //                   Description:
 //               </div>
 //               {user.last_login? user.last_login: "Login not found"}
-  
-            
+
 //               <div className='fw-bold'>
-//                 Observed Location: 
+//                 Observed Location:
 //               </div>
 //               {user.email}
 //               <div className='fw-bold'>
 //                 Observed:
 //               </div>
-            
+
 //           </div>
 //           </div>
 //         </div>
