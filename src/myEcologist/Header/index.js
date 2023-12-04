@@ -62,6 +62,7 @@ function Header() {
               aria-label="Search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {if (e.key === "Enter") {navigate("/Results/" + query)}}}
             />
             <button className="btn btn-outline-light" type="button" onClick={() => {
               navigate("/Results/" + query)

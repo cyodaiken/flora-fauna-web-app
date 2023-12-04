@@ -4,14 +4,18 @@ function fetchWikiExtract(query) {
 
     const wikiEndpoint = "https://en.wikipedia.org/w/api.php"
     const wikiParams = "?action=query"
-        + "&format=json"
-        + "&prop=links" 
-        + "&meta=&titles=" + query
-        + "&list=search" 
-        + "&srsearch=" + query
-        + "&prop=info&inprop=url"
-        + "&pllimit=500"
-        + "&origin=*"
+    +'&format=json'
+    +'&prop=extracts&titles=' + query
+    +'&redirects=true'
+    + "&origin=*"
+        // + "&format=json"
+        // + "&prop=links" 
+        // + "&meta=&titles=" + query
+        // + "&list=search" 
+        // + "&srsearch=" + query
+        // + "&prop=info&inprop=url"
+        // + "&pllimit=500"
+        // + "&origin=*"
 
 
     const wikiLink = wikiEndpoint + wikiParams;
