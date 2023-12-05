@@ -1,16 +1,37 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.min.js";
 import './index.css';
-import db from '../Database';
+// import db from '../Database';
 import { Link, Route, useParams } from 'react-router-dom';
+import * as client from "./client";
 
-import React, { useLayoutEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 
 function Explore() {
-    const uniqueSpecies = new Set(db.observations.map(observation => observation.species_guess));
-    // const uniqueObservers = new Set(db.observations.map(observation => observation.user_id));
 
-    const userNames = db.observations.map(observation => observation.user_name);
+    const [observations, setObservations] = useState([]);
+    
+    const fetchObservations = async () => {
+        const getObservations = await client.fetchExplores();
+        setObservations(getObservations);
+    };
+
+    const addObservations = async () => {
+        const newObservation = await client.addNewExplore();
+        setObservations([...observations, newObservation]);
+    };
+
+    const deleteObservation = async (id) => {
+        const deletedObservation = await client.deleteExplore(id);
+        setObservations(observations.filter((observation) => observation.id !== deletedObservation.id));
+        const updatedObservations = await client.fetchExplores();
+        setObservations(updatedObservations);
+    };
+
+
+    // species and observers details(number and unique)
+    const uniqueSpecies = new Set(observations.map(observation => observation.species_guess));
+    const userNames = observations.map(observation => observation.user_name);
     const numUniqueObservers = new Set(userNames);
     const uniqueObservers = Array.from(numUniqueObservers);
 
@@ -19,7 +40,7 @@ function Explore() {
 
     // Observations
     const [currentPageObservations, setCurrentPageObservations] = useState(1);
-    const totalPagesObservations = Math.ceil(db.observations.length / itemsPerPage);
+    const totalPagesObservations = Math.ceil(observations.length / itemsPerPage);
     const pageNumbersObservations = Array.from({ length: totalPagesObservations }, (_, index) => index + 1);
     let startPageObservations = Math.max(1, currentPageObservations - Math.floor(maxPageNumbersToShow / 2));
     let endPageObservations = Math.min(totalPagesObservations, startPageObservations + maxPageNumbersToShow - 1);
@@ -27,14 +48,10 @@ function Explore() {
         startPageObservations = endPageObservations - maxPageNumbersToShow + 1;
     }
 
-    const observations = db.observations
+    const observationsList = observations
         .slice((currentPageObservations - 1) * itemsPerPage, currentPageObservations * itemsPerPage)
         .map((observation) => (
-            <Link
-                key={observation._id}
-                to={`${observation.id}`}
-                className="card"
-            >
+            <div key={observation.id} className="card">
                 <img className="card-head" src={observation.image_url} alt={observation.common_name} />
                 <div className="card-body">
                     <div style={{ fontWeight: 'bold' }}>
@@ -43,14 +60,20 @@ function Explore() {
                     <div className='float-end'>
                         {observation.user_name}
                     </div>
+                    <Link to={`${observation.id}`} className="btn btn-primary btn-sm">
+                        View Details
+                    </Link>
+                    <button className="btn btn-danger btn-sm" onClick={() => deleteObservation(observation.id)}>
+                        Delete
+                    </button>
                 </div>
-            </Link>
+            </div>
         ));
 
     // Species 
     const [currentPageSpecies, setCurrentPageSpecies] = useState(1);
     const speciesDictionary = {};
-    db.observations.forEach(observation => {
+    observations.forEach(observation => {
         if (!speciesDictionary[observation.common_name]) {
             speciesDictionary[observation.common_name] = {
                 scientific_name: observation.scientific_name,
@@ -92,7 +115,7 @@ function Explore() {
     
     // Observers
     const observerCounts = {};
-    db.observations.forEach(observation => {
+    observations.forEach(observation => {
         const userName = observation.user_name;
         if (userName !== "") {
             observerCounts[userName] = (observerCounts[userName] || 0) + 1;
@@ -152,7 +175,7 @@ function Explore() {
     // Function to get species count for the user
     function getSpeciesCountForUser(userName) {
         const speciesSet = new Set();
-        db.observations.forEach((observation) => {
+        observations.forEach((observation) => {
             if (observation.user_name === userName) {
                 speciesSet.add(observation.common_name);
             }
@@ -179,6 +202,10 @@ function Explore() {
         }
     };
 
+    useEffect(() => {
+        fetchObservations();
+      }, []);
+      
     return (
         <div>
             <div style={{ width: "100%", height: "70px" }}></div>
@@ -189,7 +216,7 @@ function Explore() {
                     The World
                 </li>  
                 <button className="custom-nav-link active d-flex align-items-center col-lg-2 border-0" id="pills-observation-tab" data-bs-toggle="pill" data-bs-target="#pills-observation" type="button" role="tab" aria-controls="pills-observation" aria-selected="true">
-                    {db.observations.length} <br />
+                    {observations.length} <br />
                     OBSERVATIONS
                 </button>
                 <button className="custom-nav-link d-flex align-items-center col-lg-2 border-0" id="pills-species-tab" data-bs-toggle="pill" data-bs-target="#pills-species" type="button" role="tab" aria-controls="pills-species" aria-selected="false">
@@ -205,8 +232,15 @@ function Explore() {
             <div className="tab-content" id="pills-tabContent">
                 <div className="tab-pane fade show active" id="pills-observation" role="tabpanel" aria-labelledby="pills-observation-tab">
                     <div className="container my-5">
+                        {/* <button className="btn btn-primary" >
+                            <Link to="/Explore/addObservation" 
+                                className="text-decoration-none text-white" 
+                                style={{color: "black"}}>
+                                Add Observation
+                            </Link>
+                        </button> */}
                         <div className="d-flex justify-content-center flex-wrap gap-4">
-                            {observations}
+                            {observationsList}
                         </div>
                     </div>
                     <div className="pagination justify-content-center pb-4">
@@ -289,8 +323,4 @@ function Explore() {
             
     );
 }
-
 export default Explore;
-
-
-

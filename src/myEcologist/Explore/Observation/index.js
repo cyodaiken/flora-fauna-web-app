@@ -8,6 +8,15 @@ import { FaRegUserCircle } from "react-icons/fa";
 function Observation() {
   const { observationId } = useParams();
   const observation = db.observations.find(obs => obs.id === parseInt(observationId));
+  
+  // const [observation, setObservation ] = useState([]);
+  // const fetchObservation = async () => {
+  //   const getObservation = await client.fetchObservation();
+  //   setObservations(getObservation);
+  // };
+  // useEffect(() => {
+  //   fetchObservation();
+  // }, []);
 
   return (
     <div className="container my-4">
