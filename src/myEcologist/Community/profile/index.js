@@ -23,29 +23,53 @@ function Profile() {
     last_login: "",
   });
 
+  const [currentUser, setCurrentUser] = useState(null);
+  const fetchCurrentUser = async () => {
+    const serverCurrentUser = await client.account();
+    setCurrentUser(serverCurrentUser);
+  };
+
   const fetchUser = async () => {
     const getUser = await client.fetchUser(userId);
     console.log(getUser);
     setUser(getUser);
   };
+
+  const deleteUser = async (id) => {
+    const response = await client.deleteUser(id);
+    return response.data;
+  };
+
   useEffect(() => {
     fetchUser();
-  }, []);
+    fetchCurrentUser();
+  }, [setCurrentUser]);
 
   return (
     <div className="container my-4">
       <div className="row">
         <div className="col-md-4 col-sm-6 order-md-1 order-1">
           <h3>PROFILE</h3>
-          <h2>{user.email}</h2>
+          <h2>{user.name}</h2>
           <img
             src={user.profile_pic}
-            style={{ width: "300px", height: "300px" }}
+            style={{ width: "250px", height: "250px" }}
           />
         </div>
 
         {user && (
           <div className="col-md-8 col-sm-6 order-md-2 order-2">
+            <>
+              {currentUser.role ===
+                "ADMIN"(
+                  <button
+                    className="btn btn-warning float-end"
+                    onClick={() => deleteUser(user.id)}
+                  >
+                    Delete User
+                  </button>
+                )}
+            </>
             <h2>{user.given_name}</h2>
             <BsFillCalendar2DateFill
               style={{ fontSize: "15px", marginRight: 5 }}
@@ -78,32 +102,32 @@ function Profile() {
       </div>
       <div className="row">
         <div className="col-md-3 d-none d-md-block" style={{ marginTop: 10 }}>
-          <div class="list-group">
-            <a class="list-group-item" href="#">
+          <div className="list-group">
+            <a className="list-group-item" href="#">
               <FaBinoculars style={{ color: "green", marginRight: 10 }} />{" "}
               Observations
             </a>
-            <a class="list-group-item" href="#">
+            <a className="list-group-item" href="#">
               <BiSolidLeaf style={{ color: "green", marginRight: 10 }} />{" "}
               Species
             </a>{" "}
-            <a class="list-group-item" href="#">
+            <a className="list-group-item" href="#">
               <BsShieldFillExclamation
                 style={{ color: "green", marginRight: 10 }}
               />{" "}
               Identifications
             </a>{" "}
-            <a class="list-group-item" href="#">
+            <a className="list-group-item" href="#">
               <IoIosJournal style={{ color: "green", marginRight: 10 }} />
               Journal Posts
             </a>{" "}
-            <a class="list-group-item" href="#">
+            <a className="list-group-item" href="#">
               <BsReverseListColumnsReverse
                 style={{ color: "green", marginRight: 10 }}
               />
               Lists
             </a>{" "}
-            <a class="list-group-item" href="#">
+            <a className="list-group-item" href="#">
               <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
               Followers
             </a>

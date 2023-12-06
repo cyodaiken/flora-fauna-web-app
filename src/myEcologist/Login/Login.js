@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+
 const Login = () => {
   const [email, setEmail] = useState("");
-
   const [password, setPassword] = useState("");
 
   function validateForm() {
@@ -15,6 +15,7 @@ const Login = () => {
   function handleSubmit(event) {
     event.preventDefault();
   }
+
   return (
     <div className="row background-color-left align-items-center main-login">
       <div className="col-12 col-md-6 text-center">
@@ -30,7 +31,10 @@ const Login = () => {
         <div className="row mb-3">
           <h3>Login</h3>
         </div>
-        <Form className="row w-50 login-form" onSubmit={handleSubmit}>
+        <Form
+          className="row w-50 custom-width login-form"
+          onSubmit={handleSubmit}
+        >
           <Form.Group size="lg" controlId="email">
             <Form.Control
               autoFocus
@@ -50,6 +54,13 @@ const Login = () => {
             />
           </Form.Group>
 
+          {/* Forgot Password Link */}
+          <div className="mt-2">
+            <Link to="/forgot-password" className="forgot-password-link">
+              Forgot Password?
+            </Link>
+          </div>
+
           <Button
             className="form-submit-button mt-3"
             block={"true"}
@@ -61,7 +72,9 @@ const Login = () => {
           </Button>
         </Form>
         <div className="row mt-3 mb-3">
-          <Link className="sign-up-link" to={`/Signup`}>Don't have an account? Sign up.</Link>
+          <Link className="signup-link" to={`/Signup`}>
+            Don't have an account? Sign up.
+          </Link>
         </div>
       </div>
       <div className="col-6 d-none d-md-block">
