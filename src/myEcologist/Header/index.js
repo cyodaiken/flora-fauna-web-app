@@ -43,7 +43,6 @@ function Header() {
                 Community
               </a>
             </li>
-    
           </ul>
 
           <form className="d-flex">
@@ -58,9 +57,11 @@ function Header() {
             </button>
           </form>
 
-          <ul className="navbar-nav ms-2 mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to={`/Login`}>Login</Link>
+          <ul className="navbar-nav  nav-link ms-2 mb-2 mb-lg-0 ">
+            <li className="nav-item remove-link">
+              <Link className="nav-link" to={`/Login`}>
+                Login
+              </Link>
             </li>
           </ul>
         </div>
