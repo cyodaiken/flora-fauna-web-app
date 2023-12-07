@@ -1,14 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import db from "../Database";
 import "./index.css";
-
-import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as client from "../Login/client";
+import { search } from "../Header/client";
 function Header() {
+  const { observationId } = useParams();
+  const observation = db.observations.find(
+    (obs) => obs.id === parseInt(observationId)
+  );
   const [account, setAccount] = useState(null);
   const navigate = useNavigate();
 
@@ -41,6 +45,12 @@ function Header() {
       setAccount(JSON.parse(storedAccount));
     }
   }, []);
+
+  const [query, setQuery] = useState("");
+  useEffect(() => {
+    search(observation.common_name).then((results) => setQuery(results));
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg wd-header">
       <div className="container-fluid">
