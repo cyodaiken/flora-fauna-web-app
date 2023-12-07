@@ -12,7 +12,7 @@ function BeAnEcologiist() {
                     <img className="natureResponsive" src="Images/deer.svg" />
                 </div>
 
-                <div className='d-flex flex-column col-xs-12 col-sm-6 pt-4'>
+                <div className='d-flex flex-column col-xs-12 col-sm-6 pt-4 ps-4'>
                     <h4>Be an Ecologist</h4>
 
                     <p>

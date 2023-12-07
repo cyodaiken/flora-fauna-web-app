@@ -1,6 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./index.css";
+
+import { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -85,8 +87,21 @@ function Header() {
               type="search"
               placeholder="Search"
               aria-label="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  navigate("/Results/" + query);
+                }
+              }}
             />
-            <button className="btn btn-outline-light" type="submit">
+            <button
+              className="btn btn-outline-light"
+              type="button"
+              onClick={() => {
+                navigate("/Results/" + query);
+              }}
+            >
               <AiOutlineSearch />
             </button>
           </form>

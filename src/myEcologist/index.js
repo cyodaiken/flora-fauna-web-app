@@ -14,6 +14,7 @@ import Observers from "./Explore/Observers";
 import Community from "./Community";
 import Profile from "./Community/profile";
 import AddObservation from "./Explore/addObservation";
+import Results from "./Results/Results";
 import AccountDisplay from "./Login/account-display";
 
 function Ecologist() {
@@ -31,6 +32,7 @@ function Ecologist() {
         <Route path="/Explore/addObservation" element={<AddObservation />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/Community/:userId" element={<Profile />} />
+        <Route path="/Results/:query" element={<Results />} />
         <Route path="/Login/account" element={<AccountDisplay />} />
       </Routes>
       <Footer />
