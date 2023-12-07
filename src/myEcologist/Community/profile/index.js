@@ -59,17 +59,23 @@ function Profile() {
 
         {user && (
           <div className="col-md-8 col-sm-6 order-md-2 order-2">
-            <>
-              {currentUser.role ===
-                "ADMIN"(
-                  <button
-                    className="btn btn-warning float-end"
-                    onClick={() => deleteUser(user.id)}
-                  >
-                    Delete User
-                  </button>
-                )}
-            </>
+            {currentUser.role === "admin" && currentUser.userId === userId && (
+              <>
+                <button
+                  className="btn btn-warning float-end"
+                  onClick={() => deleteUser(user.id)}
+                >
+                  Delete User
+                </button>
+                <button className="btn btn-warning float-end">
+                  {/* can be link to edit page of Apurva */}
+                  <Link to={`/community/${user.user_id}/edit`}>
+                    {" "}
+                    Edit User{" "}
+                  </Link>
+                </button>
+              </>
+            )}
             <h2>{user.given_name}</h2>
             <BsFillCalendar2DateFill
               style={{ fontSize: "15px", marginRight: 5 }}

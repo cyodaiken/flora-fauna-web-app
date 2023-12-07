@@ -8,6 +8,12 @@ import * as client from "./client";
 
 function Community() {
   const [users, setUsers] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const fetchCurrentUser = async () => {
+    const serverCurrentUser = await client.account();
+    setCurrentUser(serverCurrentUser);
+  };
 
   const fetchUsers = async () => {
     const getUsers = await client.fetchUsers();
@@ -16,7 +22,8 @@ function Community() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+    fetchCurrentUser();
+  }, [setCurrentUser]);
 
   return (
     <div>
@@ -55,29 +62,34 @@ function Community() {
           </Link>
         </ul>
       </div>
-      <div
-        className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 g-4 wd-dashboard-grid"
-        style={{ marginTop: 8 }}
-      >
-        {users.map((user) => (
-          <Link
-            key={user.user_id}
-            to={`/community/${user.user_id}`}
-            className="card custom-mx-0"
+
+      <div>
+        {currentUser && (
+          <div
+            className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-xl-6 g-4 wd-dashboard-grid"
+            style={{ marginTop: 8 }}
           >
-            <img
-              className="card-head"
-              src={user.profile_pic}
-              alt={user.given_name}
-            />
-            <div className="card-body">
-              <h5 className="card-title" style={{ marginTop: 10 }}>
-                {user.given_name} {user.family_name}
-              </h5>
-              <p className="card-text">{user.email}</p>
-            </div>
-          </Link>
-        ))}
+            {users.map((user) => (
+              <Link
+                key={user.user_id}
+                to={`/community/${user.user_id}`}
+                className="card custom-mx-0"
+              >
+                <img
+                  className="card-head"
+                  src={user.profile_pic}
+                  alt={user.given_name}
+                />
+                <div className="card-body">
+                  <h5 className="card-title" style={{ marginTop: 10 }}>
+                    {user.given_name} {user.family_name}
+                  </h5>
+                  <p className="card-text">{user.email}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
