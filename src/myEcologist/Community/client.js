@@ -1,5 +1,5 @@
 import axios from "axios";
-const USER_URL = "http://localhost:400/project/users";
+const USER_URL = "http://localhost:4000/project/users";
 
 export const fetchUsers = async () => {
   const response = await axios.get(`${USER_URL}`);
