@@ -25,8 +25,8 @@ function Profile() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const fetchCurrentUser = async () => {
-    //const serverCurrentUser = await client.account();
-    //setCurrentUser(serverCurrentUser);
+    const serverCurrentUser = await client.account();
+    setCurrentUser(serverCurrentUser);
   };
 
   const fetchUser = async () => {
@@ -43,6 +43,7 @@ function Profile() {
   useEffect(() => {
     fetchUser();
     fetchCurrentUser();
+    console.log(currentUser);
   }, [setCurrentUser]);
 
   return (
@@ -59,9 +60,9 @@ function Profile() {
 
         {user && (
           <div className="col-md-8 col-sm-6 order-md-2 order-2">
-            <>
-              {currentUser.role ===
-                "ADMIN"(
+            {/* <>
+              {currentUser.user_role ===
+                "admin"(
                   <button
                     className="btn btn-warning float-end"
                     onClick={() => deleteUser(user.id)}
@@ -69,7 +70,7 @@ function Profile() {
                     Delete User
                   </button>
                 )}
-            </>
+            </> */}
             <h2>{user.given_name}</h2>
             <BsFillCalendar2DateFill
               style={{ fontSize: "15px", marginRight: 5 }}

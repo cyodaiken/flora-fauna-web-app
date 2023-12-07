@@ -20,7 +20,9 @@ const Login = () => {
         alert("Incorrect Username/Password");
       } else {
         console.log("Logged in successfully");
-        navigate("/Login/account"); // Navigate to the new page
+        const userId = user.user_id;
+        console.log(user);
+        navigate(`/Community/${userId}`); // Navigate to the new page
       }
     } catch (err) {
       console.error(err);

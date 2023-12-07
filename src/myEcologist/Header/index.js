@@ -48,7 +48,7 @@ function Header() {
 
   const [query, setQuery] = useState("");
   useEffect(() => {
-    search(observation.common_name).then((results) => setQuery(results));
+    //search(observation.common_name).then((results) => setQuery(results));
   }, []);
 
   return (
