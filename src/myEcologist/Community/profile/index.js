@@ -25,8 +25,8 @@ function Profile() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const fetchCurrentUser = async () => {
-    const serverCurrentUser = await client.account();
-    setCurrentUser(serverCurrentUser);
+    //const serverCurrentUser = await client.account();
+    //setCurrentUser(serverCurrentUser);
   };
 
   const fetchUser = async () => {
