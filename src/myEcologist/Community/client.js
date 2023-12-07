@@ -1,5 +1,5 @@
 import axios from "axios";
-const USER_URL = "http://localhost:400/project/users";
+const USER_URL = "http://localhost:4000/project/users";
 
 export const fetchUsers = async () => {
   const response = await axios.get(`${USER_URL}`);
@@ -22,3 +22,7 @@ export const updateUser = async (id, user) => {
   const response = await axios.put(`${USER_URL}/${id}`, user);
   return response.data;
 };
+// export const account = async () => {
+//   const response = await request.post(`${USER_URL}/account`);
+//   return response.data;
+// };

@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import { useParams } from "react-router";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Link } from "react";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { MdMarkEmailRead } from "react-icons/md";
@@ -24,10 +24,10 @@ function Profile() {
   });
 
   const [currentUser, setCurrentUser] = useState(null);
-  const fetchCurrentUser = async () => {
-    const serverCurrentUser = await client.account();
-    setCurrentUser(serverCurrentUser);
-  };
+  // const fetchCurrentUser = async () => {
+  //   const serverCurrentUser = await client.account();
+  //   setCurrentUser(serverCurrentUser);
+  // };
 
   const fetchUser = async () => {
     const getUser = await client.fetchUser(userId);
@@ -42,7 +42,7 @@ function Profile() {
 
   useEffect(() => {
     fetchUser();
-    fetchCurrentUser();
+    // fetchCurrentUser();
   }, [setCurrentUser]);
 
   return (

@@ -10,10 +10,10 @@ function Community() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const fetchCurrentUser = async () => {
-    const serverCurrentUser = await client.account();
-    setCurrentUser(serverCurrentUser);
-  };
+  // const fetchCurrentUser = async () => {
+  //   const serverCurrentUser = await client.account();
+  //   setCurrentUser(serverCurrentUser);
+  // };
 
   const fetchUsers = async () => {
     const getUsers = await client.fetchUsers();
@@ -22,7 +22,7 @@ function Community() {
 
   useEffect(() => {
     fetchUsers();
-    fetchCurrentUser();
+    // fetchCurrentUser();
   }, [setCurrentUser]);
 
   return (
