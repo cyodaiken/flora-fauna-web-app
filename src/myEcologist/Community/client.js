@@ -22,3 +22,12 @@ export const updateUser = async (id, user) => {
   const response = await axios.put(`${USER_URL}/${id}`, user);
   return response.data;
 };
+
+export const account = async () => {
+  try {
+    const response = await axios.post(`${USER_URL}/account`);
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
