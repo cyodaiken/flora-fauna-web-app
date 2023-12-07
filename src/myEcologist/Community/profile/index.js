@@ -24,10 +24,10 @@ function Profile() {
   });
 
   const [currentUser, setCurrentUser] = useState(null);
-  // const fetchCurrentUser = async () => {
-  //   const serverCurrentUser = await client.account();
-  //   setCurrentUser(serverCurrentUser);
-  // };
+  const fetchCurrentUser = async () => {
+    //const serverCurrentUser = await client.account();
+    //setCurrentUser(serverCurrentUser);
+  };
 
   const fetchUser = async () => {
     const getUser = await client.fetchUser(userId);

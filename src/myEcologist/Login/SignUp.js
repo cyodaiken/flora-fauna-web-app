@@ -2,34 +2,51 @@ import "./Login.css";
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link, useNavigate } from "react-router-dom";
+import * as client from "./client";
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [dob, setDob] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
 
+  const [error, setError] = useState("");
+  const [credentials, setCredentials] = useState({
+    user_id: "",
+    user_login: "",
+    user_name: "",
+    email: "",
+    password: "",
+    user_role: "",
+  });
+  const navigate = useNavigate();
+
+  const signup = async (event) => {
+    event.preventDefault();
+    console.log("in signup");
+    try {
+      const user = await client.signup(credentials);
+      console.log("returned from server call", user);
+      if (user == 200) {
+        alert("User_ID already taken. Try again.");
+      } else {
+        alert("Signup successful! Log into your account.");
+        navigate("../Login");
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.response.data.message);
+      alert("Signup failed: " + err.response.data.message);
+    }
+  };
   function validateForm() {
     return (
-      email.length > 0 &&
-      password.length > 0 &&
-      firstName.length > 0 &&
-      lastName.length > 0 &&
-      dob.length > 0 &&
+      credentials.user_name.length > 0 &&
+      credentials.email.length > 0 &&
+      credentials.password.length > 0 &&
+      credentials.user_id > 0 &&
+      credentials.user_login.length > 0 &&
+      credentials.user_role.length > 0 &&
       agreeTerms
     );
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(email);
-    console.log(password);
-    console.log(firstName);
-    console.log(lastName);
-    console.log(dob);
-    console.log(agreeTerms);
   }
 
   return (
@@ -47,54 +64,78 @@ const SignUp = () => {
         <div className="row mb-3">
           <h3>Sign Up</h3>
         </div>
-        <Form
-          className="row w-50 custom-width login-form"
-          onSubmit={handleSubmit}
-        >
-          <Form.Group className="mt-3" size="lg" controlId="email">
+        <Form className="row w-50 custom-width login-form" onSubmit={signup}>
+          <Form.Group className="mt-3" size="lg" controlId="user_id">
             <Form.Control
               autoFocus
+              type="number"
+              value={credentials.user_id}
+              placeholder="User Id"
+              onChange={(e) =>
+                setCredentials({
+                  ...credentials,
+                  user_id: parseInt(e.target.value, 10) || "",
+                })
+              }
+              onWheel={(e) => e.target.blur()}
+            />
+          </Form.Group>
+          <Form.Group className="mt-3" size="lg" controlId="user_login">
+            <Form.Control
+              type="text"
+              value={credentials.user_login}
+              placeholder="Username"
+              onChange={(e) =>
+                setCredentials({ ...credentials, user_login: e.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group className="mt-3" size="lg" controlId="username">
+            <Form.Control
+              type="text"
+              value={credentials.user_name}
+              placeholder="Name"
+              onChange={(e) =>
+                setCredentials({ ...credentials, user_name: e.target.value })
+              }
+            />
+          </Form.Group>
+          <Form.Group className="mt-3" size="lg" controlId="email">
+            <Form.Control
               type="email"
-              value={email}
+              value={credentials.email}
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
             />
           </Form.Group>
 
           <Form.Group className="mt-3" size="lg" controlId="password">
             <Form.Control
               type="password"
-              value={password}
+              value={credentials.password}
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
             />
           </Form.Group>
-
-          <Form.Group className="mt-3" size="lg" controlId="firstName">
+          <Form.Group className="mt-3" size="lg" controlId="user_role">
             <Form.Control
-              type="text"
-              value={firstName}
-              placeholder="First Name"
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mt-3" size="lg" controlId="lastName">
-            <Form.Control
-              type="text"
-              value={lastName}
-              placeholder="Last Name"
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </Form.Group>
-
-          <Form.Group className="mt-3" size="lg" controlId="dob">
-            <Form.Control
-              type="date"
-              value={dob}
-              placeholder="Date of Birth"
-              onChange={(e) => setDob(e.target.value)}
-            />
+              as="select"
+              value={credentials.user_role}
+              onChange={(e) =>
+                setCredentials({ ...credentials, user_role: e.target.value })
+              }
+            >
+              <option value="" disabled>
+                Select Role
+              </option>
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+              <option value="moderator">moderator</option>
+            </Form.Control>
           </Form.Group>
 
           <Form.Group controlId="agreeTerms" className="mb-2 mt-2">

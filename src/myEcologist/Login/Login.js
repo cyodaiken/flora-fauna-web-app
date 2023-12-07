@@ -2,18 +2,36 @@ import "./Login.css";
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import * as client from "./client";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    user_id: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const signin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const user = await client.signin(credentials);
+      if (!user) {
+        alert("Incorrect Username/Password");
+      } else {
+        console.log("Logged in successfully");
+        navigate("/Login/account"); // Navigate to the new page
+      }
+    } catch (err) {
+      console.error(err);
+      alert(
+        "Signin failed: " + (err.response?.data?.message || "Unknown error")
+      );
+    }
+  };
 
   function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
+    return credentials.user_id > 0 && credentials.password.length > 0;
   }
 
   return (
@@ -31,35 +49,33 @@ const Login = () => {
         <div className="row mb-3">
           <h3>Login</h3>
         </div>
-        <Form
-          className="row w-50 custom-width login-form"
-          onSubmit={handleSubmit}
-        >
-          <Form.Group size="lg" controlId="email">
+        <Form className="row w-50 custom-width login-form" onSubmit={signin}>
+          <Form.Group size="lg" controlId="user_id">
             <Form.Control
               autoFocus
-              type="email"
-              value={email}
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              type="number"
+              value={credentials.user_id}
+              placeholder="User ID"
+              onChange={(e) =>
+                setCredentials({
+                  ...credentials,
+                  user_id: parseInt(e.target.value, 10) || "",
+                })
+              }
+              onWheel={(e) => e.target.blur()}
             />
           </Form.Group>
 
           <Form.Group className="mt-3" size="lg" controlId="password">
             <Form.Control
               type="password"
-              value={password}
+              value={credentials.password}
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
             />
           </Form.Group>
-
-          {/* Forgot Password Link */}
-          <div className="mt-2">
-            <Link to="/forgot-password" className="forgot-password-link">
-              Forgot Password?
-            </Link>
-          </div>
 
           <Button
             className="form-submit-button mt-3"
