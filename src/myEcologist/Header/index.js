@@ -5,10 +5,13 @@ import "./index.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
 import * as client from "../Login/client";
+import { Dropdown } from "react-bootstrap";
+
 import { search } from "../Header/client";
 function Header() {
+  const [error, setError] = useState("");
   const { observationId } = useParams();
   const observation = db.observations.find(
     (obs) => obs.id === parseInt(observationId)
@@ -32,18 +35,29 @@ function Header() {
   };
   const { id } = useParams();
 
+  const gotoProfile = () => {
+    navigate(`/Community/${currentUser.user_id}`); // Navigate to the new page
+  };
   const findUserById = async (id) => {
     console.log("id :", id);
     const user = await client.findUserById(id);
     console.log("user:", user);
     setAccount(user);
   };
-  useEffect(() => {
-    // Check if user information is stored in local storage
-    const storedAccount = localStorage.getItem("current_user");
-    if (storedAccount) {
-      setAccount(JSON.parse(storedAccount));
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const getServerCurrentUser = await client.account();
+      setCurrentUser(getServerCurrentUser);
+    } catch (err) {
+      setError(err);
     }
+  };
+
+  useEffect(() => {
+    fetchCurrentUser();
   }, []);
 
   const [query, setQuery] = useState("");
@@ -56,7 +70,7 @@ function Header() {
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
           <img
-            src="Images/myEcologist.svg"
+            src="/Images/myEcologist.svg"
             height="27"
             className="d-inline-block align-text-top"
           />
@@ -116,19 +130,42 @@ function Header() {
             </button>
           </form>
 
-          <ul className="navbar-nav nav-link ms-2 mb-2 mb-lg-0 ">
-            {account ? (
-              <li className="nav-item">
-                <button
-                  className="btn btn-outline-light nav-link"
-                  onClick={signout}
+          <ul className="navbar-nav ms-2 mb-2 mb-lg-0">
+            {currentUser ? (
+              <Dropdown as="li" className="nav-item">
+                <Dropdown.Toggle
+                  id="dropdown-custom-components"
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "inherit",
+                    boxShadow: "none",
+                    border: "none",
+                  }}
                 >
-                  Sign Out
-                </button>
-              </li>
+                  <img
+                    src={currentUser.profile_pic}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                      marginRight: "5px",
+                    }}
+                  />
+                  Profile
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item as="button" onClick={gotoProfile}>
+                    My Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item as="button" onClick={signout}>
+                    Sign Out
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             ) : (
-              <li className="nav-item remove-link">
-                <Link className="nav-link" to={`/Login`}>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Login">
                   Login
                 </Link>
               </li>

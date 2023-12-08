@@ -55,7 +55,7 @@ const SignUp = () => {
         <div className="row company-logo mb-3">
           <a href="#">
             <img
-              src="Images/myEcologist.svg"
+              src="/Images/myEcologist.svg"
               height="35"
               className="d-inline-block align-text-top"
             />
@@ -162,7 +162,7 @@ const SignUp = () => {
       <div className="col-6 d-none d-md-block">
         <img
           className="login-display-image"
-          src="Images/coyote.svg"
+          src="/Images/coyote.svg"
           alt="Login Display"
         />
       </div>

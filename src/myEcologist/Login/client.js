@@ -29,7 +29,11 @@ export const signin = async (credentials) => {
 
 export const updateUser = async (user) => {
   try {
-    const response = await request.put(`${USERS_API}/${user._id}`, user);
+    console.log("IN UPADTE USER : credentials : ", user);
+    const response = await request.put(
+      `${USERS_API}/${user.user_id}/edit`,
+      user
+    );
     return response.data;
   } catch (error) {
     console.log(error);
