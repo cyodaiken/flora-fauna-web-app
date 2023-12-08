@@ -4,10 +4,24 @@ import "./index.css";
 // import db from '../Database';
 import { Link, Route, useParams } from "react-router-dom";
 import * as client from "./client";
+import * as user_client from "../Community/client";
 
 import React, { useEffect, useState } from "react";
 
 function Explore() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [error, setError] = useState("");
+
+    const fetchCurrentUser = async () => {
+    try {
+        const user = await user_client.account();
+        console.log("currentUser ", user);
+        setCurrentUser(user);
+    } catch (error) {
+        setError(error.message);
+    }
+    };
+
   const [observations, setObservations] = useState([]);
 
   const fetchObservations = async () => {
@@ -19,6 +33,11 @@ function Explore() {
     const newObservation = await client.addNewExplore();
     setObservations([...observations, newObservation]);
   };
+
+  const updatedObservations = async (id) => {   
+    const updatedObservation = await client.updateExplore(id);
+    setObservations([...observations, updatedObservation]); 
+    };
 
   const deleteObservation = async (id) => {
     const deletedObservation = await client.deleteExplore(id);
@@ -66,28 +85,41 @@ function Explore() {
       (currentPageObservations - 1) * itemsPerPage,
       currentPageObservations * itemsPerPage
     )
-    .map((observation) => (
-      <div key={observation.id} className="card">
-        <img
-          className="card-head"
-          src={observation.image_url}
-          alt={observation.common_name}
-        />
-        <div className="card-body">
-          <div style={{ fontWeight: "bold" }}>{observation.common_name}</div>
-          <div className="float-end">{observation.user_name}</div>
-          <Link to={`${observation.id}`} className="btn btn-primary btn-sm">
-            View Details
-          </Link>
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => deleteObservation(observation.id)}
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    ));
+    .map((observation) => {
+        return (
+        
+            <div key={observation.id} className="card">
+                <img
+                className="card-head"
+                src={observation.image_url}
+                alt={observation.common_name}
+                />
+                <div className="card-body">
+                <div style={{ fontWeight: "bold" }}>{observation.common_name}</div>
+                <div className="float-end">{observation.user_name}</div>
+                <Link to={`${observation.id}`} className="btn btn-primary btn-sm">
+                    View Details
+                </Link>
+                {currentUser && (currentUser.user_role === "admin" || currentUser.user_role === "moderator"|| currentUser.user_id === observation.user_id) && (
+                    <>
+                    <button
+                        className="btn btn-success btn-sm"
+                        onClick={() => updatedObservations(observation.id)}
+                    >
+                        Update
+                    </button>
+                    
+                    <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => deleteObservation(observation.id)}
+                    >
+                        Delete
+                    </button>
+                    </>)}
+                </div>
+            </div>
+        );
+    });
 
   // Species
   const [currentPageSpecies, setCurrentPageSpecies] = useState(1);
@@ -261,10 +293,12 @@ function Explore() {
   };
 
   useEffect(() => {
+    fetchCurrentUser();
     fetchObservations();
   }, []);
 
   return (
+    
     <div>
       <div style={{ width: "100%", height: "70px" }}></div>
 
@@ -412,50 +446,60 @@ function Explore() {
             </button>
           </div>
         </div>
-
-        <div
-          className="tab-pane fade"
-          id="pills-observers"
-          role="tabpanel"
-          aria-labelledby="pills-observers-tab"
-        >
-          <div className="container my-5">
-            <div className="justify-content-center flex-wrap gap-4">
-              {observerList}
+        
+        {currentUser ? (
+            <div
+            className="tab-pane fade"
+            id="pills-observers"
+            role="tabpanel"
+            aria-labelledby="pills-observers-tab"
+            >
+            <div className="container my-5">
+                <div className="justify-content-center flex-wrap gap-4">
+                {observerList}
+                </div>
+            </div>
+            <div className="pagination justify-content-center pb-4">
+                <button
+                onClick={() =>
+                    handlePageChangeObservers(currentPageObservers - 1)
+                }
+                disabled={currentPageObservers === 1}
+                >
+                {"<"}
+                </button>
+                {pageNumbersObservers
+                .slice(startPageObservers - 1, endPageObservers)
+                .map((pageNumber) => (
+                    <button
+                    key={pageNumber}
+                    onClick={() => handlePageChangeObservers(pageNumber)}
+                    className={`${
+                        currentPageObservers === pageNumber ? "active" : ""
+                    }`}
+                    >
+                    {pageNumber}
+                    </button>
+                ))}
+                <button
+                onClick={() =>
+                    handlePageChangeObservers(currentPageObservers + 1)
+                }
+                disabled={currentPageObservers === totalPagesObservers}
+                >
+                {">"}
+                </button>
+            </div>
+            </div>
+        ): (
+            <div className="tab-pane fade" id="pills-observers" role="tabpanel" aria-labelledby="pills-observers-tab">
+            <div className="container my-5">
+              <div className="alert alert-danger">
+                Please Login to view this page
+              </div>
             </div>
           </div>
-          <div className="pagination justify-content-center pb-4">
-            <button
-              onClick={() =>
-                handlePageChangeObservers(currentPageObservers - 1)
-              }
-              disabled={currentPageObservers === 1}
-            >
-              {"<"}
-            </button>
-            {pageNumbersObservers
-              .slice(startPageObservers - 1, endPageObservers)
-              .map((pageNumber) => (
-                <button
-                  key={pageNumber}
-                  onClick={() => handlePageChangeObservers(pageNumber)}
-                  className={`${
-                    currentPageObservers === pageNumber ? "active" : ""
-                  }`}
-                >
-                  {pageNumber}
-                </button>
-              ))}
-            <button
-              onClick={() =>
-                handlePageChangeObservers(currentPageObservers + 1)
-              }
-              disabled={currentPageObservers === totalPagesObservers}
-            >
-              {">"}
-            </button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
