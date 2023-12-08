@@ -1,5 +1,10 @@
 import axios from "axios";
 const EXPLORE_URL = "http://localhost:4000/project/explore";
+const FOLLOW_URL = "http://localhost:4000/project";
+const request = axios.create({
+  withCredentials: true,
+  //   baseURL: "http://localhost:4000/project",
+});
 
 export const fetchExplores = async () => {
   const response = await axios.get(`${EXPLORE_URL}`);
@@ -23,5 +28,20 @@ export const deleteExplore = async (id) => {
 
 export const updateExplore = async (id, explore) => {
   const response = await axios.put(`${EXPLORE_URL}/${id}`, explore);
+  return response.data;
+};
+
+export const userFollowPost = async (postid) => {
+  const response = await request.post(`${FOLLOW_URL}/follows/${postid}`);
+  return response.data;
+};
+
+export const userUnfollowPost = async (postid) => {
+  const response = await request.delete(`${FOLLOW_URL}/unfollows/${postid}`);
+  return response.data;
+};
+
+export const findFollowersByPost = async (postid) => {
+  const response = await request.get(`${FOLLOW_URL}/followers/${postid}`);
   return response.data;
 };

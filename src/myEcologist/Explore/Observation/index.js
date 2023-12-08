@@ -5,17 +5,17 @@ import { useParams } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { search } from "../../Header/client";
-
+import * as client from "../client";
 function Observation() {
   const { observationId } = useParams();
   const observation = db.observations.find(
     (obs) => obs.id === parseInt(observationId)
   );
 
-  // const [observation, setObservation ] = useState([]);
+  // const [observation, setObservation] = useState([]);
   // const fetchObservation = async () => {
   //   const getObservation = await client.fetchObservation();
-  //   setObservations(getObservation);
+  //   setObservation(getObservation);
   // };
 
   const [query, setQuery] = useState("");
@@ -23,6 +23,10 @@ function Observation() {
     search(observation.common_name).then((results) => setQuery(results));
   }, []);
 
+  const followPost = async () => {
+    const status = await client.userFollowPost(observationId);
+    console.log(status);
+  };
   return (
     <div className="container my-4">
       <div className="row">
@@ -32,6 +36,14 @@ function Observation() {
         </div>
 
         <div className="col-12 col-xl-6 mt-5">
+          {/* when user is logged in */}
+          <button
+            onClick={() => followPost()}
+            className="btn btn-success float-end"
+          >
+            Follow Post
+          </button>
+
           <h4 className="d-flex align-items-center gap-3 mb-3">
             <FaRegUserCircle style={{ fontSize: "40px" }} />
             <div className="fw-bold">
