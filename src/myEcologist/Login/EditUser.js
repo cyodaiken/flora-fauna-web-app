@@ -152,7 +152,7 @@ const EditUser = () => {
                 Update Profile
               </Button>
               <Button
-                className="form-cancel-button mt-3 mb-3 ms-2"
+                className="form-submit-button mt-3 mb-3 ms-2"
                 size="lg"
                 variant="secondary"
                 onClick={cancel}
