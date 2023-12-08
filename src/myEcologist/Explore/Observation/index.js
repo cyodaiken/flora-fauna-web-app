@@ -1,25 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-import db from '../../Database';
+// import db from '../../Database';
 import { useParams } from 'react-router-dom';
 import { React, useState, useEffect } from 'react';
 import { FaRegUserCircle } from "react-icons/fa";
 import { search } from "../../Header/client";
+import { fetchExplore } from "../client";
 
 function Observation() {
   const { observationId } = useParams();
-  const observation = db.observations.find(obs => obs.id === parseInt(observationId));
-
-  // const [observation, setObservation ] = useState([]);
-  // const fetchObservation = async () => {
-  //   const getObservation = await client.fetchObservation();
-  //   setObservations(getObservation);
-  // };
-
+  
+  const [observation, setObservation] = useState(null);
   const [query, setQuery] = useState("");
+
   useEffect(() => {
-    search(observation.common_name).then((results) => setQuery(results));
-  }, []);
+    // Fetch observation data from MongoDB
+    fetchExplore(parseInt(observationId, 10)).then((data) => {
+      setObservation(data);
+      // Use the common_name from MongoDB data for searching
+      // search(data.common_name).then((results) => setQuery(results));
+    });
+  }, [parseInt(observationId, 10)]);
+
+  // Check if observation is null before rendering
+  if (observation === null) {
+    return <div>Loading...</div>; // You can show a loading indicator or handle it differently
+  }
 
   return (
     <div className="container my-4">
