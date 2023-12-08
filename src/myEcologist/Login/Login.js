@@ -42,7 +42,7 @@ const Login = () => {
         <div className="row company-logo mb-3">
           <a href="#">
             <img
-              src="Images/myEcologist.svg"
+              src="/Images/myEcologist.svg"
               height="35"
               className="d-inline-block align-text-top"
             />
@@ -96,7 +96,7 @@ const Login = () => {
         </div>
       </div>
       <div className="col-6 d-none d-md-block">
-        <img className="login-display-image" src="Images/seaLion.svg"></img>
+        <img className="login-display-image" src="/Images/seaLion.svg"></img>
       </div>
     </div>
   );
