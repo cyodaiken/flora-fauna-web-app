@@ -8,6 +8,7 @@ export const fetchExplores = async () => {
 
 export const fetchExplore = async (id) => {
   const response = await axios.get(`${EXPLORE_URL}/${id}`);
+  console.log(response.data);
   return response.data;
 };
 
