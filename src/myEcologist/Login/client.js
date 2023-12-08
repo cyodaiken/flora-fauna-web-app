@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_API = "http://localhost:4000";
-export const USERS_API = `${BASE_API}/api/users`;
+export const USERS_API = `${BASE_API}/project/users`;
 
 const request = axios.create({
   withCredentials: true,
