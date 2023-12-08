@@ -1,7 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 import { AiOutlineClockCircle } from "react-icons/ai";
@@ -15,8 +16,8 @@ import { FaPeopleArrows } from "react-icons/fa";
 import * as client from "../client";
 
 function Profile() {
+  const navigate = useNavigate();
   const { userId } = useParams();
-  console.log(userId);
 
   const [user, setUser] = useState({
     created_at: "",
@@ -25,26 +26,34 @@ function Profile() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const fetchCurrentUser = async () => {
-    const serverCurrentUser = await client.account();
-    setCurrentUser(serverCurrentUser);
+    try {
+      const serverCurrentUser = await client.account();
+      console.log(serverCurrentUser);
+      console.log(serverCurrentUser.user_role);
+      console.log(serverCurrentUser.user_id);
+      setCurrentUser(serverCurrentUser);
+    } catch (error) {
+      console.log("Error fetching current users: ", error);
+    }
   };
 
   const fetchUser = async () => {
     const getUser = await client.fetchUser(userId);
-    console.log(getUser);
     setUser(getUser);
   };
 
   const deleteUser = async (id) => {
     const response = await client.deleteUser(id);
-    return response.data;
+    navigate("/community");
   };
 
   useEffect(() => {
+    async function fetchData() {
+      await fetchCurrentUser();
+    }
+    fetchData();
     fetchUser();
-    fetchCurrentUser();
-    console.log(currentUser);
-  }, [setCurrentUser]);
+  }, [setUser]);
 
   return (
     <div className="container my-4">
@@ -57,20 +66,31 @@ function Profile() {
             style={{ width: "250px", height: "250px" }}
           />
         </div>
+        <div className="d-flex justify-content-end">
+          {currentUser && // Check if currentUser is not null
+            (currentUser.user_role === "admin" ||
+              currentUser.user_id === userId) && (
+              <>
+                <button
+                  className="btn btn-danger me-2"
+                  onClick={() => deleteUser(userId)}
+                >
+                  Delete User
+                </button>
+                <button>
+                  <Link
+                    to={`/users/${userId}/edit`}
+                    className="btn btn-warning"
+                  >
+                    Edit User
+                  </Link>
+                </button>
+              </>
+            )}
+        </div>
 
         {user && (
           <div className="col-md-8 col-sm-6 order-md-2 order-2">
-            {/* <>
-              {currentUser.user_role ===
-                "admin"(
-                  <button
-                    className="btn btn-warning float-end"
-                    onClick={() => deleteUser(user.id)}
-                  >
-                    Delete User
-                  </button>
-                )}
-            </> */}
             <h2>{user.given_name}</h2>
             <BsFillCalendar2DateFill
               style={{ fontSize: "15px", marginRight: 5 }}
