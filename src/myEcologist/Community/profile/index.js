@@ -19,6 +19,14 @@ function Profile() {
   const navigate = useNavigate();
   const { userId } = useParams();
 
+  const [followers, setFollowers] = useState([]);
+
+  const FetchFollowers = async () => {
+    const followers = await client.findPostThatUserFollows(userId);
+    console.log(followers);
+    setFollowers(followers);
+  };
+
   const [user, setUser] = useState({
     created_at: "",
     last_login: "",
@@ -28,9 +36,6 @@ function Profile() {
   const fetchCurrentUser = async () => {
     try {
       const serverCurrentUser = await client.account();
-      console.log(serverCurrentUser);
-      console.log(serverCurrentUser.user_role);
-      console.log(serverCurrentUser.user_id);
       setCurrentUser(serverCurrentUser);
     } catch (error) {
       console.log("Error fetching current users: ", error);
@@ -53,6 +58,7 @@ function Profile() {
     }
     fetchData();
     fetchUser();
+    FetchFollowers();
   }, [setUser]);
 
   return (
@@ -124,35 +130,50 @@ function Profile() {
       <div className="row">
         <div className="col-md-3 d-none d-md-block" style={{ marginTop: 10 }}>
           <div className="list-group">
-            <a className="list-group-item" href="#">
+            <a className="list-group-item" href="http://localhost:3000/Explore">
               <FaBinoculars style={{ color: "green", marginRight: 10 }} />{" "}
               Observations
             </a>
-            <a className="list-group-item" href="#">
+            {/* <a className="list-group-item" href="#">
               <BiSolidLeaf style={{ color: "green", marginRight: 10 }} />{" "}
               Species
-            </a>{" "}
-            <a className="list-group-item" href="#">
+            </a>{" "} */}
+            {/* <a className="list-group-item" href="#">
               <BsShieldFillExclamation
                 style={{ color: "green", marginRight: 10 }}
               />{" "}
               Identifications
-            </a>{" "}
+            </a>{" "} */}
             <a className="list-group-item" href="#">
               <IoIosJournal style={{ color: "green", marginRight: 10 }} />
               Journal Posts
             </a>{" "}
-            <a className="list-group-item" href="#">
+            <a
+              className="list-group-item"
+              href="http://localhost:3000/Community"
+            >
               <BsReverseListColumnsReverse
                 style={{ color: "green", marginRight: 10 }}
               />
-              Lists
+              Users
             </a>{" "}
             <a className="list-group-item" href="#">
               <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
               Followers
             </a>
           </div>
+        </div>
+        <h3>Following Post</h3>
+        <div className="list-group">
+          {followers.map((follows) => (
+            <Link
+              to={`/explore/${follows.followed.id}`}
+              className="list-group-item list-group-item-action"
+              key={follows.followed.id}
+            >
+              {follows.followed.common_name}
+            </Link>
+          ))}
         </div>
       </div>
     </div>
