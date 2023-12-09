@@ -28,7 +28,13 @@ export const deleteExplore = async (id) => {
   return response.data;
 };
 
-export const updateExplore = async (id, explore) => {
-  const response = await request.put(`${EXPLORE_URL}/${id}`, explore);
+export const updateExplore = async (explore) => {
+  const response = await request.put(`${EXPLORE_URL}/${explore.id}`, explore);
   return response.data;
 };
+
+export const createExplore = async (explore) => {
+  const response = await request.post(`${EXPLORE_URL}`, explore);
+  return response.data;
+} 
+

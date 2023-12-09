@@ -5,8 +5,10 @@ import "./index.css";
 import { Link, Route, useParams } from "react-router-dom";
 import * as client from "./client";
 import * as user_client from "../Community/client";
-
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+
 
 function Explore() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -23,21 +25,13 @@ function Explore() {
     };
 
   const [observations, setObservations] = useState([]);
+  const [observation, setObservation] = useState({});
 
   const fetchObservations = async () => {
     const getObservations = await client.fetchExplores();
     setObservations(getObservations);
   };
 
-  const addObservations = async () => {
-    const newObservation = await client.addNewExplore();
-    setObservations([...observations, newObservation]);
-  };
-
-  const updatedObservations = async (id) => {   
-    const updatedObservation = await client.updateExplore(id);
-    setObservations([...observations, updatedObservation]); 
-    };
 
   const deleteObservation = async (id) => {
     const deletedObservation = await client.deleteExplore(id);
@@ -50,6 +44,31 @@ function Explore() {
     setObservations(updatedObservations);
   };
 
+  const addObservations = async () => {
+    const newId = new Date().getTime();
+
+    const newObservation = {
+      id: newId,
+      user_id: currentUser.user_id,
+      user_name: currentUser.user_name,
+      url: "https://source.unsplash.com/random/300x300?sig=incrementingIdentifier",
+      image_url: "https://source.unsplash.com/random/300x300?sig=incrementingIdentifier",
+      ...observation
+    };
+
+    const addedObservation = await client.createExplore(newObservation);
+    setObservations([addedObservation, ...observations]);
+    setObservation({id: newId});
+  };
+
+  const updateObservations = async () => {
+    const updatedObservation = await client.updateExplore(observation);
+    setObservations(observations.map((obs) => (obs.id === updatedObservation.id ? updatedObservation : obs))
+    );
+    const updatedObs = await client.fetchExplores();
+    setObservations(updatedObs);
+  };
+    
   // species and observers details(number and unique)
   const uniqueSpecies = new Set(
     observations.map((observation) => observation.species_guess)
@@ -102,12 +121,11 @@ function Explore() {
                 </Link>
                 {currentUser && (currentUser.user_role === "admin" || currentUser.user_role === "moderator"|| currentUser.user_id === observation.user_id) && (
                     <>
-                    <button
-                        className="btn btn-success btn-sm"
-                        onClick={() => updatedObservations(observation.id)}
-                    >
-                        Update
-                    </button>
+                    <button 
+                            onClick={() => setObservation(observation)}
+                            className="btn btn-warning  btn-sm">
+                            Edit
+                          </button>
                     
                     <button
                         className="btn btn-danger btn-sm"
@@ -300,6 +318,7 @@ function Explore() {
   return (
     
     <div>
+
       <div style={{ width: "100%", height: "70px" }}></div>
 
       <ul
@@ -362,14 +381,88 @@ function Explore() {
           role="tabpanel"
           aria-labelledby="pills-observation-tab"
         >
+          { currentUser  && 
+          (<div className="list-group my-3">
+            <div className="list-group-item">
+              <div className="mb-3">
+                <label htmlFor="commonName" className="form-label">Common Name:</label>
+                <input
+                  id="commonName"
+                  className="form-control"
+                  placeholder="Common Name"
+                  onChange={(e) => setObservation({ ...observation, common_name: e.target.value })}
+                  value={observation.common_name}
+                  type="text"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="description" className="form-label">Description:</label>
+                <textarea
+                  id="description"
+                  className="form-control"
+                  placeholder="Description"
+                  onChange={(e) => setObservation({ ...observation, description: e.target.value })}
+                  value={observation.description}
+                  type="text"
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="place_guess" className="form-label">Place:</label>
+                <input
+                  id="place_guess"
+                  className="form-control"
+                  placeholder="Place"
+                  onChange={(e) => setObservation({ ...observation, place_guess: e.target.value })}
+                  value={observation.place_guess}
+                  type="text"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="species_guess" className="form-label">Species:</label>
+                <input
+                  id="species_guess"
+                  className="form-control"
+                  placeholder="Species"
+                  onChange={(e) => setObservation({ ...observation, species_guess: e.target.value })}
+                  value={observation.species_guess}
+                  type="text"
+                />
+              </div>
+
+              <div className="mb-3">
+                <label htmlFor="scientific_name" className="form-label">Scientific Name:</label>
+                <input
+                  id="scientific_name"
+                  className="form-control"
+                  placeholder="Scientific Name"
+                  onChange={(e) => setObservation({ ...observation, scientific_name: e.target.value })}
+                  value={observation.scientific_name}
+                  type="text"
+                />
+              </div>
+
+            </div>
+            <div className="list-group-item">
+              <button
+                onClick={addObservations}
+                className="btn btn-warning mx-1 col-sm"
+              >
+                Add
+              </button>
+              <button
+                onClick={updateObservations}
+                className="btn btn-primary mx-1 col-sm"
+              >
+                Update
+              </button>
+            </div>
+          </div>)}
+
+
+
+
           <div className="container my-5">
-            {/* <button className="btn btn-primary" >
-                            <Link to="/Explore/addObservation" 
-                                className="text-decoration-none text-white" 
-                                style={{color: "black"}}>
-                                Add Observation
-                            </Link>
-                        </button> */}
             <div className="d-flex justify-content-center flex-wrap gap-4">
               {observationsList}
             </div>

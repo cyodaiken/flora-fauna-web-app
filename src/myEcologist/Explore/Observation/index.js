@@ -26,34 +26,39 @@ function Observation() {
     return <div>Loading...</div>; // You can show a loading indicator or handle it differently
   }
 
+  const getFormattedTime = () => {
+    if (observation.time_observed_at) {
+      return observation.time_observed_at.split(" +")[0];
+    }
+    return "None";
+  };
+
+
   return (
     <div className="container my-4">
       <div className="row">
         <div className="col-12 col-xl-6">
-          <h2>{observation.common_name}</h2>
+          <h2>{observation.common_name ? observation.common_name : "None"}</h2>
           <img src={observation.image_url} alt={observation.common_name} />
         </div>
 
         <div className="col-12 col-xl-6 mt-5">
           <h4 className="d-flex align-items-center gap-3 mb-3">
-            <FaRegUserCircle style={{ fontSize: "40px" }} />
-            <div className="fw-bold">
-              {observation.user_name ? observation.user_name : "No user name"}
-            </div>
+            {/* Other JSX... */}
           </h4>
           <div>
             <div className="fw-bold">Scientific Name:</div>
-            {observation.scientific_name}
+            {observation.scientific_name ? observation.scientific_name : "None"}
             <div className="fw-bold">Description:</div>
             {observation.description ? observation.description : "None"}
             <div dangerouslySetInnerHTML={{ __html: query.extract }}></div>
             <div className="fw-bold">Observed Location:</div>
-            {observation.place_guess}
+            {observation.place_guess ? observation.place_guess : "None"}
             <div className="fw-bold">Observed:</div>
-            {observation.time_observed_at.split(" +")[0]}{" "}
+            {getFormattedTime()}
             {observation.time_zone}
             <div className="fw-bold">Submitted:</div>
-            {observation.created_at.split(" +")[0]}
+            {observation.created_at.split(" +")[0] ? observation.created_at : "None"}
           </div>
         </div>
       </div>
@@ -64,7 +69,7 @@ function Observation() {
             width="100%"
             height="500"
             allowFullScreen
-            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=${observation.latitude},${observation.longitude}`}
+            src={`https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${observation.latitude},${observation.longitude}`}
           ></iframe>
         </div>
       )}
