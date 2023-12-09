@@ -1,32 +1,58 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import db from "../../Database";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { search } from "../../Header/client";
+import { fetchExplore } from "../client";
 import * as client from "../client";
+
 function Observation() {
   const { observationId } = useParams();
-  const observation = db.observations.find(
-    (obs) => obs.id === parseInt(observationId)
-  );
 
-  // const [observation, setObservation] = useState([]);
-  // const fetchObservation = async () => {
-  //   const getObservation = await client.fetchObservation();
-  //   setObservation(getObservation);
-  // };
-
+  const [observation, setObservation] = useState(null);
   const [query, setQuery] = useState("");
-  useEffect(() => {
-    search(observation.common_name).then((results) => setQuery(results));
-  }, []);
+  const [followers, setFollowers] = useState([]);
 
+  const FetchFollowers = async () => {
+    const followers = await client.findFollowersByPost(observationId);
+    console.log(followers);
+    setFollowers(followers);
+  };
   const followPost = async () => {
     const status = await client.userFollowPost(observationId);
-    console.log(status);
   };
+  const unFollowPost = async () => {
+    const status = await client.userUnfollowPost(observationId);
+  };
+
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const fetchCurrentUser = async () => {
+    try {
+      const getServerCurrentUser = await client.account();
+      setCurrentUser(getServerCurrentUser);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch observation data from MongoDB
+    fetchExplore(parseInt(observationId, 10)).then((data) => {
+      setObservation(data);
+      // Use the common_name from MongoDB data for searching
+      // search(data.common_name).then((results) => setQuery(results));
+    });
+    FetchFollowers();
+    fetchCurrentUser();
+  }, [parseInt(observationId, 10)]);
+
+  // Check if observation is null before rendering
+  if (observation === null) {
+    return <div>Loading...</div>; // You can show a loading indicator or handle it differently
+  }
+
   return (
     <div className="container my-4">
       <div className="row">
@@ -37,12 +63,24 @@ function Observation() {
 
         <div className="col-12 col-xl-6 mt-5">
           {/* when user is logged in */}
-          <button
-            onClick={() => followPost()}
-            className="btn btn-success float-end"
-          >
-            Follow Post
-          </button>
+          <div>
+            {currentUser && (
+              <>
+                <button
+                  onClick={() => unFollowPost()}
+                  className="btn btn-warning float-end"
+                >
+                  Unfollow
+                </button>
+                <button
+                  onClick={() => followPost()}
+                  className="btn btn-success float-end"
+                >
+                  Follow Post
+                </button>
+              </>
+            )}
+          </div>
 
           <h4 className="d-flex align-items-center gap-3 mb-3">
             <FaRegUserCircle style={{ fontSize: "40px" }} />
@@ -77,6 +115,18 @@ function Observation() {
           ></iframe>
         </div>
       )}
+      <h3>Followers</h3>
+      <div className="list-group">
+        {followers.map((follows) => (
+          <Link
+            to={`/community/${follows.follower.user_id}`}
+            className="list-group-item list-group-item-action"
+            key={follows.follower.user_id}
+          >
+            {follows.follower.user_name}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

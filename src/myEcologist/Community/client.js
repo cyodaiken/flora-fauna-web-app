@@ -34,4 +34,5 @@ export const account = async () => {
 
 export const findPostThatUserFollows = async (id) => {
   const response = await request.get(`${FOLLOW_URL}/following/${id}`);
+  return response.data;
 };

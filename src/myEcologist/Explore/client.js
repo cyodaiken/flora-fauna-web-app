@@ -1,6 +1,8 @@
 import axios from "axios";
 const EXPLORE_URL = "http://localhost:4000/project/explore";
 const FOLLOW_URL = "http://localhost:4000/project";
+const USER_URL = "http://localhost:4000/project/users";
+
 const request = axios.create({
   withCredentials: true,
   //   baseURL: "http://localhost:4000/project",
@@ -13,6 +15,7 @@ export const fetchExplores = async () => {
 
 export const fetchExplore = async (id) => {
   const response = await axios.get(`${EXPLORE_URL}/${id}`);
+  console.log(response.data);
   return response.data;
 };
 
@@ -43,5 +46,10 @@ export const userUnfollowPost = async (postid) => {
 
 export const findFollowersByPost = async (postid) => {
   const response = await request.get(`${FOLLOW_URL}/followers/${postid}`);
+  return response.data;
+};
+
+export const account = async () => {
+  const response = await request.post(`${USER_URL}/account`);
   return response.data;
 };
