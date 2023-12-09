@@ -18,11 +18,11 @@ import Explore from "./Explore";
 import Observation from "./Explore/Observation";
 import Community from "./Community";
 import Profile from "./Community/profile";
-import AddObservation from "./Explore/addObservation";
 import Results from "./Results/Results";
 import AccountDisplay from "./Login/account-display";
 import EditUser from "./Login/EditUser";
 import HeaderWrapper from "./Header/HeaderWrapper";
+
 
 function Ecologist() {
   return (
@@ -36,7 +36,6 @@ function Ecologist() {
         <Route path="/Signup" element={<SignUp />} />
         <Route path="/Explore" element={<Explore />} />
         <Route path="/Explore/:observationId" element={<Observation />} />
-        <Route path="/Explore/addObservation" element={<AddObservation />} />
         <Route path="/Community" element={<Community />} />
         <Route path="/Community/:userId" element={<Profile />} />
         <Route path="/Results/:query" element={<Results />} />
