@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import Header from "./Header";
 import Home from "./Home/Home";
 import Footer from "./Footer";
@@ -15,11 +21,13 @@ import Profile from "./Community/profile";
 import AddObservation from "./Explore/addObservation";
 import Results from "./Results/Results";
 import AccountDisplay from "./Login/account-display";
+import EditUser from "./Login/EditUser";
+import HeaderWrapper from "./Header/HeaderWrapper";
 
 function Ecologist() {
   return (
     <BrowserRouter>
-      <Header />
+      <HeaderWrapper />
       <Routes>
         <Route path="/" element={<Navigate to="Home" />} />
         <Route path="/Home" element={<Home />} />
@@ -33,6 +41,7 @@ function Ecologist() {
         <Route path="/Community/:userId" element={<Profile />} />
         <Route path="/Results/:query" element={<Results />} />
         <Route path="/Login/account" element={<AccountDisplay />} />
+        <Route path="/users/:userId/edit" element={<EditUser />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -42,7 +42,7 @@ function Observation() {
     fetchExplore(parseInt(observationId, 10)).then((data) => {
       setObservation(data);
       // Use the common_name from MongoDB data for searching
-      // search(data.common_name).then((results) => setQuery(results));
+      search(data.common_name).then((results) => setQuery(results));
     });
     FetchFollowers();
     fetchCurrentUser();
