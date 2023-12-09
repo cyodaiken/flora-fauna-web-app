@@ -7,12 +7,7 @@ const request = axios.create({
 const USER_URL = "http://localhost:4000/project/users";
 const EXPLORE_URL = "http://localhost:4000/project/explore";
 const FOLLOW_URL = "http://localhost:4000/project";
-const USER_URL = "http://localhost:4000/project/users";
 
-const request = axios.create({
-  withCredentials: true,
-  //   baseURL: "http://localhost:4000/project",
-});
 
 export const fetchExplores = async () => {
   const response = await request.get(`${EXPLORE_URL}`);
