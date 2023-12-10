@@ -21,11 +21,25 @@ function Profile() {
 
   const [followers, setFollowers] = useState([]);
 
+  const [userFollowers, setUserFollowers] = useState([]);
+
+  const [userFollowings, setUserFollowings] = useState([]);
+
   const FetchFollowers = async () => {
     const followers = await client.findPostThatUserFollows(userId);
     console.log(followers);
     setFollowers(followers);
   };
+
+  const findUserFollowers = async () => {
+    const userFollowers = await client.findUsersThatFollowUser(userId);
+    setUserFollowers(userFollowers);
+  }
+
+  const findUserFollowing = async () => {
+    const userFollowings = await client.findUsersThatUserFollows(userId);
+    setUserFollowings(userFollowings);
+  }
 
   const [user, setUser] = useState({
     created_at: "",
@@ -59,6 +73,8 @@ function Profile() {
     fetchData();
     fetchUser();
     FetchFollowers();
+    findUserFollowers();
+    findUserFollowing();
   }, [setUser]);
 
   return (
@@ -129,6 +145,11 @@ function Profile() {
       </div>
       <div className="row">
         <div className="col-md-3 d-none d-md-block" style={{ marginTop: 10 }}>
+
+
+          <button className="btn btn-success mb-2 me-2" onClick={() => client.userFollowUser(userId)}>Follow</button>
+          <button className="btn btn-danger mb-2" onClick={() => client.userUnfollowUser(userId)}>Unfollow</button>
+
           <div className="list-group">
             <a className="list-group-item" href="http://localhost:3000/Explore">
               <FaBinoculars style={{ color: "green", marginRight: 10 }} />{" "}
@@ -144,6 +165,8 @@ function Profile() {
               />{" "}
               Identifications
             </a>{" "} */}
+
+
             <a className="list-group-item" href="#">
               <IoIosJournal style={{ color: "green", marginRight: 10 }} />
               Journal Posts
@@ -157,12 +180,21 @@ function Profile() {
               />
               Users
             </a>{" "}
-            <a className="list-group-item" href="#">
+
+            {/* <a className="list-group-item" href="#">
               <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
               Followers
             </a>
+            
+            <a className="list-group-item" href="#">
+              <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
+              Following
+            </a> */}
+
           </div>
         </div>
+
+
         <h3>Following Post</h3>
         <div className="list-group">
           {followers.map((follows) => (
@@ -175,6 +207,34 @@ function Profile() {
             </Link>
           ))}
         </div>
+
+        <h3>Followers</h3>
+
+        <div className="list-group">
+          {userFollowers.map((follows) => (
+            <Link
+              to={`/community/${follows.follower.user_id}`}
+              className="list-group-item list-group-item-action"
+              key={follows.follower.user_id}>
+              {follows.follower.user_name}
+            </Link>
+          ))}
+        </div>
+
+        <h3>Following</h3>
+
+        <div className="list-group">
+          {userFollowings.map((follows) => (
+            <Link
+              to={`/community/${follows.followed.user_id}`}
+              className="list-group-item list-group-item-action"
+              key={follows.followed.user_id}>
+              {follows.followed.user_name}
+            </Link>
+          ))}
+        </div>
+
+
       </div>
     </div>
   );

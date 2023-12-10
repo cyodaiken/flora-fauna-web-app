@@ -5,6 +5,8 @@ const request = axios.create({
 });
 const USER_URL = "http://localhost:4000/project/users";
 const FOLLOW_URL = "http://localhost:4000/project";
+const FOLLOW_USER_URL = "http://localhost:4000/follow/users";
+
 export const fetchUsers = async () => {
   const response = await request.get(`${USER_URL}`);
   // console.log(response.data);
@@ -36,3 +38,23 @@ export const findPostThatUserFollows = async (id) => {
   const response = await request.get(`${FOLLOW_URL}/following/${id}`);
   return response.data;
 };
+
+export const userFollowUser = async (id) => {
+  const response = await request.post(`${FOLLOW_USER_URL}/follow/${id}`);
+  return response.data;
+}
+
+export const userUnfollowUser = async (id) => {
+  const response = await request.delete(`${FOLLOW_USER_URL}/unfollow/${id}`);
+  return response.data;
+}
+
+export const findUsersThatFollowUser = async (id) => {
+  const response = await request.get(`${FOLLOW_USER_URL}/followed/${id}`);
+  return response.data;
+}
+
+export const findUsersThatUserFollows = async (id) => {
+  const response = await request.get(`${FOLLOW_USER_URL}/following/${id}`);
+  return response.data;
+}
