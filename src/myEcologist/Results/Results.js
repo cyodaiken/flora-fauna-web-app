@@ -18,14 +18,14 @@ function Results() {
     useEffect(() => { search(query); }, [query]);
 
     return (
-        data && 
+        data &&
         <div className='m-3'>
             <h3>{data.title}</h3>
-            <Link 
-        to={`${data.fullurl}`} className="link-underline-light link-secondary link-underline-opacity-100-hover">
-            Wikipedia <GoLinkExternal />
-        </Link>
-            <div dangerouslySetInnerHTML={{__html: data.extract}}></div>
+            <Link
+                to={`${data.fullurl}`} className="link-underline-light link-dark link-underline-opacity-100-hover">
+                Wikipedia Page<GoLinkExternal />
+            </Link>
+            <div dangerouslySetInnerHTML={{ __html: data.extract }}></div>
         </div>
     );
 }

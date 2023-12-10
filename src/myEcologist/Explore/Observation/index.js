@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { search } from "../../Header/client";
 import { fetchExplore } from "../client";
 import * as client from "../client";
+import { GoLinkExternal } from "react-icons/go";
 
 function Observation() {
   const { observationId } = useParams();
@@ -98,7 +99,14 @@ function Observation() {
             {observation.scientific_name ? observation.scientific_name : "None"}
             <div className="fw-bold">Description:</div>
             {observation.description ? observation.description : "None"}
+            <br />
+            <Link
+                to={`${query.fullurl}`} className="link-underline-light link-dark link-underline-opacity-100-hover">
+                Wikipedia Page <GoLinkExternal />
+            </Link>
+
             <div dangerouslySetInnerHTML={{ __html: query.extract }}></div>
+
             <div className="fw-bold">Observed Location:</div>
             {observation.place_guess ? observation.place_guess : "None"}
             <div className="fw-bold">Observed:</div>
