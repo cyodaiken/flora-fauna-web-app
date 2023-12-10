@@ -6,23 +6,21 @@ import { Link, Route, useParams } from "react-router-dom";
 import * as client from "./client";
 import * as user_client from "../Community/client";
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-
+//import { useSelector, useDispatch } from "react-redux";
 
 function Explore() {
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState("");
 
-    const fetchCurrentUser = async () => {
+  const fetchCurrentUser = async () => {
     try {
-        const user = await user_client.account();
-        console.log("currentUser ", user);
-        setCurrentUser(user);
+      const user = await user_client.account();
+      console.log("currentUser ", user);
+      setCurrentUser(user);
     } catch (error) {
-        setError(error.message);
+      setError(error.message);
     }
-    };
+  };
 
   const [observations, setObservations] = useState([]);
   const [observation, setObservation] = useState({});
@@ -31,7 +29,6 @@ function Explore() {
     const getObservations = await client.fetchExplores();
     setObservations(getObservations);
   };
-
 
   const deleteObservation = async (id) => {
     const deletedObservation = await client.deleteExplore(id);
@@ -52,23 +49,27 @@ function Explore() {
       user_id: currentUser.user_id,
       user_name: currentUser.user_name,
       url: "https://source.unsplash.com/random/300x300?sig=incrementingIdentifier",
-      image_url: "https://source.unsplash.com/random/300x300?sig=incrementingIdentifier",
-      ...observation
+      image_url:
+        "https://source.unsplash.com/random/300x300?sig=incrementingIdentifier",
+      ...observation,
     };
 
     const addedObservation = await client.createExplore(newObservation);
     setObservations([addedObservation, ...observations]);
-    setObservation({id: newId});
+    setObservation({ id: newId });
   };
 
   const updateObservations = async () => {
     const updatedObservation = await client.updateExplore(observation);
-    setObservations(observations.map((obs) => (obs.id === updatedObservation.id ? updatedObservation : obs))
+    setObservations(
+      observations.map((obs) =>
+        obs.id === updatedObservation.id ? updatedObservation : obs
+      )
     );
     const updatedObs = await client.fetchExplores();
     setObservations(updatedObs);
   };
-    
+
   // species and observers details(number and unique)
   const uniqueSpecies = new Set(
     observations.map((observation) => observation.species_guess)
@@ -105,38 +106,42 @@ function Explore() {
       currentPageObservations * itemsPerPage
     )
     .map((observation) => {
-        return (
-        
-            <div key={observation.id} className="card">
-                <img
-                className="card-head"
-                src={observation.image_url}
-                alt={observation.common_name}
-                />
-                <div className="card-body">
-                <div style={{ fontWeight: "bold" }}>{observation.common_name}</div>
-                <div className="float-end">{observation.user_name}</div>
-                <Link to={`${observation.id}`} className="btn btn-primary btn-sm">
-                    View Details
-                </Link>
-                {currentUser && (currentUser.user_role === "admin" || currentUser.user_role === "moderator"|| currentUser.user_id === observation.user_id) && (
-                    <>
-                    <button 
-                            onClick={() => setObservation(observation)}
-                            className="btn btn-warning  btn-sm">
-                            Edit
-                          </button>
-                    
-                    <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => deleteObservation(observation.id)}
-                    >
-                        Delete
-                    </button>
-                    </>)}
-                </div>
-            </div>
-        );
+      return (
+        <div key={observation.id} className="card">
+          <img
+            className="card-head"
+            src={observation.image_url}
+            alt={observation.common_name}
+          />
+          <div className="card-body">
+            <div style={{ fontWeight: "bold" }}>{observation.common_name}</div>
+            <div className="float-end">{observation.user_name}</div>
+            <Link to={`${observation.id}`} className="btn btn-primary btn-sm">
+              View Details
+            </Link>
+            {currentUser &&
+              (currentUser.user_role === "admin" ||
+                currentUser.user_role === "moderator" ||
+                currentUser.user_id === observation.user_id) && (
+                <>
+                  <button
+                    onClick={() => setObservation(observation)}
+                    className="btn btn-warning  btn-sm"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => deleteObservation(observation.id)}
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+          </div>
+        </div>
+      );
     });
 
   // Species
@@ -316,9 +321,7 @@ function Explore() {
   }, []);
 
   return (
-    
     <div>
-
       <div style={{ width: "100%", height: "70px" }}></div>
 
       <ul
@@ -381,86 +384,118 @@ function Explore() {
           role="tabpanel"
           aria-labelledby="pills-observation-tab"
         >
-          { currentUser  && 
-          (<div className="list-group my-3">
-            <div className="list-group-item">
-              <div className="mb-3">
-                <label htmlFor="commonName" className="form-label">Common Name:</label>
-                <input
-                  id="commonName"
-                  className="form-control"
-                  placeholder="Common Name"
-                  onChange={(e) => setObservation({ ...observation, common_name: e.target.value })}
-                  value={observation.common_name}
-                  type="text"
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="description" className="form-label">Description:</label>
-                <textarea
-                  id="description"
-                  className="form-control"
-                  placeholder="Description"
-                  onChange={(e) => setObservation({ ...observation, description: e.target.value })}
-                  value={observation.description}
-                  type="text"
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="place_guess" className="form-label">Place:</label>
-                <input
-                  id="place_guess"
-                  className="form-control"
-                  placeholder="Place"
-                  onChange={(e) => setObservation({ ...observation, place_guess: e.target.value })}
-                  value={observation.place_guess}
-                  type="text"
-                />
-              </div>
+          {currentUser && (
+            <div className="list-group my-3">
+              <div className="list-group-item">
+                <div className="mb-3">
+                  <label htmlFor="commonName" className="form-label">
+                    Common Name:
+                  </label>
+                  <input
+                    id="commonName"
+                    className="form-control"
+                    placeholder="Common Name"
+                    onChange={(e) =>
+                      setObservation({
+                        ...observation,
+                        common_name: e.target.value,
+                      })
+                    }
+                    value={observation.common_name}
+                    type="text"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="description" className="form-label">
+                    Description:
+                  </label>
+                  <textarea
+                    id="description"
+                    className="form-control"
+                    placeholder="Description"
+                    onChange={(e) =>
+                      setObservation({
+                        ...observation,
+                        description: e.target.value,
+                      })
+                    }
+                    value={observation.description}
+                    type="text"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="place_guess" className="form-label">
+                    Place:
+                  </label>
+                  <input
+                    id="place_guess"
+                    className="form-control"
+                    placeholder="Place"
+                    onChange={(e) =>
+                      setObservation({
+                        ...observation,
+                        place_guess: e.target.value,
+                      })
+                    }
+                    value={observation.place_guess}
+                    type="text"
+                  />
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="species_guess" className="form-label">Species:</label>
-                <input
-                  id="species_guess"
-                  className="form-control"
-                  placeholder="Species"
-                  onChange={(e) => setObservation({ ...observation, species_guess: e.target.value })}
-                  value={observation.species_guess}
-                  type="text"
-                />
-              </div>
+                <div className="mb-3">
+                  <label htmlFor="species_guess" className="form-label">
+                    Species:
+                  </label>
+                  <input
+                    id="species_guess"
+                    className="form-control"
+                    placeholder="Species"
+                    onChange={(e) =>
+                      setObservation({
+                        ...observation,
+                        species_guess: e.target.value,
+                      })
+                    }
+                    value={observation.species_guess}
+                    type="text"
+                  />
+                </div>
 
-              <div className="mb-3">
-                <label htmlFor="scientific_name" className="form-label">Scientific Name:</label>
-                <input
-                  id="scientific_name"
-                  className="form-control"
-                  placeholder="Scientific Name"
-                  onChange={(e) => setObservation({ ...observation, scientific_name: e.target.value })}
-                  value={observation.scientific_name}
-                  type="text"
-                />
+                <div className="mb-3">
+                  <label htmlFor="scientific_name" className="form-label">
+                    Scientific Name:
+                  </label>
+                  <input
+                    id="scientific_name"
+                    className="form-control"
+                    placeholder="Scientific Name"
+                    onChange={(e) =>
+                      setObservation({
+                        ...observation,
+                        scientific_name: e.target.value,
+                      })
+                    }
+                    value={observation.scientific_name}
+                    type="text"
+                  />
+                </div>
               </div>
-
+              <div className="list-group-item">
+                <button
+                  onClick={addObservations}
+                  className="btn btn-warning mx-1 col-sm"
+                >
+                  Add
+                </button>
+                <button
+                  onClick={updateObservations}
+                  className="btn btn-primary mx-1 col-sm"
+                >
+                  Update
+                </button>
+              </div>
             </div>
-            <div className="list-group-item">
-              <button
-                onClick={addObservations}
-                className="btn btn-warning mx-1 col-sm"
-              >
-                Add
-              </button>
-              <button
-                onClick={updateObservations}
-                className="btn btn-primary mx-1 col-sm"
-              >
-                Update
-              </button>
-            </div>
-          </div>)}
-
-
-
+          )}
 
           <div className="container my-5">
             <div className="d-flex justify-content-center flex-wrap gap-4">
@@ -539,53 +574,58 @@ function Explore() {
             </button>
           </div>
         </div>
-        
+
         {currentUser ? (
-            <div
+          <div
             className="tab-pane fade"
             id="pills-observers"
             role="tabpanel"
             aria-labelledby="pills-observers-tab"
-            >
+          >
             <div className="container my-5">
-                <div className="justify-content-center flex-wrap gap-4">
+              <div className="justify-content-center flex-wrap gap-4">
                 {observerList}
-                </div>
+              </div>
             </div>
             <div className="pagination justify-content-center pb-4">
-                <button
+              <button
                 onClick={() =>
-                    handlePageChangeObservers(currentPageObservers - 1)
+                  handlePageChangeObservers(currentPageObservers - 1)
                 }
                 disabled={currentPageObservers === 1}
-                >
+              >
                 {"<"}
-                </button>
-                {pageNumbersObservers
+              </button>
+              {pageNumbersObservers
                 .slice(startPageObservers - 1, endPageObservers)
                 .map((pageNumber) => (
-                    <button
+                  <button
                     key={pageNumber}
                     onClick={() => handlePageChangeObservers(pageNumber)}
                     className={`${
-                        currentPageObservers === pageNumber ? "active" : ""
+                      currentPageObservers === pageNumber ? "active" : ""
                     }`}
-                    >
+                  >
                     {pageNumber}
-                    </button>
+                  </button>
                 ))}
-                <button
+              <button
                 onClick={() =>
-                    handlePageChangeObservers(currentPageObservers + 1)
+                  handlePageChangeObservers(currentPageObservers + 1)
                 }
                 disabled={currentPageObservers === totalPagesObservers}
-                >
+              >
                 {">"}
-                </button>
+              </button>
             </div>
-            </div>
-        ): (
-            <div className="tab-pane fade" id="pills-observers" role="tabpanel" aria-labelledby="pills-observers-tab">
+          </div>
+        ) : (
+          <div
+            className="tab-pane fade"
+            id="pills-observers"
+            role="tabpanel"
+            aria-labelledby="pills-observers-tab"
+          >
             <div className="container my-5">
               <div className="alert alert-danger">
                 Please Login to view this page

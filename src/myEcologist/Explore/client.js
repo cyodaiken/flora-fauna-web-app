@@ -8,7 +8,6 @@ const USER_URL = "http://localhost:4000/project/users";
 const EXPLORE_URL = "http://localhost:4000/project/explore";
 const FOLLOW_URL = "http://localhost:4000/project";
 
-
 export const fetchExplores = async () => {
   const response = await request.get(`${EXPLORE_URL}`);
   return response.data;
@@ -38,8 +37,7 @@ export const updateExplore = async (explore) => {
 export const createExplore = async (explore) => {
   const response = await request.post(`${EXPLORE_URL}`, explore);
   return response.data;
-} 
-
+};
 
 export const userFollowPost = async (postid) => {
   const response = await request.post(`${FOLLOW_URL}/follows/${postid}`);
@@ -58,5 +56,18 @@ export const findFollowersByPost = async (postid) => {
 
 export const account = async () => {
   const response = await request.post(`${USER_URL}/account`);
+  return response.data;
+};
+
+export const getLikeDataForPost = async (post_id) => {
+  console.log(`${EXPLORE_URL}/${post_id}/likedislike`);
+  const response = await request.get(`${EXPLORE_URL}/${post_id}/likedislike`);
+  return response.data;
+};
+
+export const manageLikeDislikeForPost = async (user_id, post_id, like) => {
+  const response = await request.post(
+    `${EXPLORE_URL}/${post_id}/likedislike/${user_id}/${like}`
+  );
   return response.data;
 };
