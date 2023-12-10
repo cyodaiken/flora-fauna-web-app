@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { useParams, Link } from "react-router-dom";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { React, useState, useEffect } from "react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { search } from "../../Header/client";
@@ -13,6 +14,41 @@ function Observation() {
   const [observation, setObservation] = useState(null);
   const [query, setQuery] = useState("");
   const [followers, setFollowers] = useState([]);
+
+  //like and dislike
+  const [likeStatus, setLikeStatus] = useState(null); // 'like', 'dislike', or null
+
+  const handleLike = async () => {
+    setLikeStatus("like");
+    manageLikeDislikeByUser(currentUser.user_id, observationId, "true");
+  };
+
+  const handleDislike = async () => {
+    setLikeStatus("dislike");
+    manageLikeDislikeByUser(currentUser.user_id, observationId, "false");
+  };
+
+  const fetchLikeDataForObservation = async (user_id, post_id) => {
+    try {
+      const likeData = await client.getLikeDataForPost(user_id, post_id);
+      console.log("HEY NO ERROR");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const manageLikeDislikeByUser = async (user_id, post_id, like) => {
+    try {
+      const response = await client.manageLikeDislikeForPost(
+        user_id,
+        post_id,
+        like
+      );
+      console.log("like dislike response ::", response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const FetchFollowers = async () => {
     const followers = await client.findFollowersByPost(observationId);
@@ -44,10 +80,20 @@ function Observation() {
       // Use the common_name from MongoDB data for searching
       search(data.common_name).then((results) => setQuery(results));
     });
-    FetchFollowers();
     fetchCurrentUser();
+    FetchFollowers();
   }, [parseInt(observationId, 10)]);
 
+  // Separate useEffect for handling currentUser-dependent actions
+  useEffect(() => {
+    if (currentUser) {
+      console.log("getting like data");
+      const response = fetchLikeDataForObservation(observationId);
+      console.log(response);
+    } else {
+      console.log("IN ELSE NO CURRENT USER FOUND");
+    }
+  }, [currentUser, observationId]);
   // Check if observation is null before rendering
   if (observation === null) {
     return <div>Loading...</div>; // You can show a loading indicator or handle it differently
@@ -59,7 +105,6 @@ function Observation() {
     }
     return "None";
   };
-
 
   return (
     <div className="container my-4">
@@ -82,9 +127,25 @@ function Observation() {
                 </button>
                 <button
                   onClick={() => followPost()}
-                  className="btn btn-success float-end"
+                  className="btn btn-success float-end me-3"
                 >
                   Follow Post
+                </button>
+                <button
+                  className={`btn ${
+                    likeStatus === "like" ? "btn-primary" : "btn-light"
+                  } me-3 float-end`}
+                  onClick={handleLike}
+                >
+                  <FaThumbsUp /> Like
+                </button>
+                <button
+                  className={`btn ${
+                    likeStatus === "dislike" ? "btn-primary" : "btn-light"
+                  } me-3 float-end`}
+                  onClick={handleDislike}
+                >
+                  <FaThumbsDown /> Dislike
                 </button>
               </>
             )}
@@ -105,7 +166,9 @@ function Observation() {
             {getFormattedTime()}
             {observation.time_zone}
             <div className="fw-bold">Submitted:</div>
-            {observation.created_at.split(" +")[0] ? observation.created_at : "None"}
+            {observation.created_at.split(" +")[0]
+              ? observation.created_at
+              : "None"}
           </div>
         </div>
       </div>
