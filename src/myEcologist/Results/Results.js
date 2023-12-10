@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import * as client from "../Header/client";
 import { useEffect, useState } from 'react';
+import { GoLinkExternal } from "react-icons/go";
 
 function Results() {
 
@@ -20,6 +21,10 @@ function Results() {
         data && 
         <div className='m-3'>
             <h3>{data.title}</h3>
+            <Link 
+        to={`${data.fullurl}`} className="link-underline-light link-secondary link-underline-opacity-100-hover">
+            Wikipedia <GoLinkExternal />
+        </Link>
             <div dangerouslySetInnerHTML={{__html: data.extract}}></div>
         </div>
     );
