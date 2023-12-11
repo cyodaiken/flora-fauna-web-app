@@ -66,7 +66,7 @@ function Profile() {
     const response = await client.deleteUser(id);
     navigate("/community");
   };
-console.log(currentUser)
+// console.log(currentUser)
   useEffect(() => {
     async function fetchData() {
       await fetchCurrentUser();
@@ -92,7 +92,7 @@ console.log(currentUser)
         <div className="d-flex justify-content-end">
           {currentUser && // Check if currentUser is not null
             (currentUser.user_role === "admin" ||
-              currentUser.user_id === userId) && (
+              currentUser.user_id === parseInt(userId)) && (
               <>
                 <button
                   className="btn btn-danger me-2"
