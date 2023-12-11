@@ -53,13 +53,13 @@ const SignUp = () => {
     <div className="row background-color-left align-items-center main-login">
       <div className="col-12 col-md-6 text-center">
         <div className="row company-logo mb-3">
-          <a href="#">
+          <Link to="#">
             <img
               src="/Images/myEcologist.svg"
               height="35"
               className="d-inline-block align-text-top"
             />
-          </a>
+          </Link>
         </div>
         <div className="row mb-3">
           <h3>Sign Up</h3>

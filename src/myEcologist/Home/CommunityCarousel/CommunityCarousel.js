@@ -58,12 +58,12 @@ const HomeCommunityCarousel = () => {
                   <p className="mb-0">{testimonial.content}</p>
                 </blockquote>
                 <footer className="blockquote-footer">
-                  <a
-                    href={"/profile/${testimonial.author}"}
+                  <Link
+                    to={"/profile/${testimonial.author}"}
                     className="author-link"
                   >
                     {testimonial.author}
-                  </a>
+                  </Link>
                   <div className="author-role">{testimonial.role}</div>
                   <div className="testimonial-location">
                     <MdLocationOn className="location-icon" />

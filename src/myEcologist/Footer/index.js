@@ -13,22 +13,22 @@ function Footer() {
                             <Link to="/about">About</Link>
                         </p>
                         <p>
-                            <a href="#!">Help</a>
+                            <Link to="#!">Help</Link>
                         </p>
                         <p>
-                            <a href="#!">Terms of Use</a>
+                            <Link to="#!">Terms of Use</Link>
                         </p>
                     </div>
 
                     <div className="col-md-3 mx-auto text-center">
                         <p>
-                            <a href="#!">Community</a>
+                            <Link to="#!">Community</Link>
                         </p>
                         <p>
-                            <a href="#!">Guidelines</a>
+                            <Link to="#!">Guidelines</Link>
                         </p>
                         <p>
-                            <a href="#!">Privacy</a></p>
+                            < Link to="#!">Privacy</Link></p>
                     </div>
 
                     <div className="col-md-3 mx-auto text-center">

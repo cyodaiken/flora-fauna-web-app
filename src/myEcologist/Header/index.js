@@ -68,13 +68,13 @@ function Header() {
   return (
     <nav className="navbar navbar-expand-lg wd-header">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           <img
             src="/Images/myEcologist.svg"
             height="27"
             className="d-inline-block align-text-top"
           />
-        </a>
+        </Link>
         <button
           className="navbar-toggler wd-icon"
           type="button"
@@ -89,9 +89,9 @@ function Header() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/Home">
+              <Link className="nav-link active" aria-current="page" href="/Home">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <Link to = "/Explore" className="nav-link">

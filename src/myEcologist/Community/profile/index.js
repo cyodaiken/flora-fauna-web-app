@@ -151,10 +151,11 @@ function Profile() {
           <button className="btn btn-danger mb-2" onClick={() => client.userUnfollowUser(userId)}>Unfollow</button>
 
           <div className="list-group">
-            <a className="list-group-item" href="http://localhost:3000/Explore">
+            <Link className="list-group-item" to="/Explore">
               <FaBinoculars style={{ color: "green", marginRight: 10 }} />{" "}
               Observations
-            </a>
+            </Link>
+
             {/* <a className="list-group-item" href="#">
               <BiSolidLeaf style={{ color: "green", marginRight: 10 }} />{" "}
               Species
@@ -167,19 +168,19 @@ function Profile() {
             </a>{" "} */}
 
 
-            <a className="list-group-item" href="#">
+            <Link className="list-group-item" to="#">
               <IoIosJournal style={{ color: "green", marginRight: 10 }} />
               Journal Posts
-            </a>{" "}
-            <a
+            </Link>{" "}
+            <Link
               className="list-group-item"
-              href="http://localhost:3000/Community"
+              to="/Community"
             >
               <BsReverseListColumnsReverse
                 style={{ color: "green", marginRight: 10 }}
               />
               Users
-            </a>{" "}
+            </Link>{" "}
 
             {/* <a className="list-group-item" href="#">
               <FaPeopleArrows style={{ color: "green", marginRight: 10 }} />
