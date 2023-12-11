@@ -100,9 +100,9 @@ function Header() {
 
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/Community">
+              <Link to="/Community" className="nav-link" >
                 Community
-              </a>
+              </Link>
             </li>
           </ul>
 
