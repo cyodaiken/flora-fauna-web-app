@@ -18,7 +18,7 @@ import * as client from "../client";
 function Profile() {
   const navigate = useNavigate();
   const { userId } = useParams();
-  console.log(userId)
+
   
   const [followers, setFollowers] = useState([]);
 
@@ -56,7 +56,7 @@ function Profile() {
       console.log("Error fetching current users: ", error);
     }
   };
-  console.log(currentUser.user_id)
+
   const fetchUser = async () => {
     const getUser = await client.fetchUser(userId);
     setUser(getUser);
@@ -66,7 +66,7 @@ function Profile() {
     const response = await client.deleteUser(id);
     navigate("/community");
   };
-
+console.log(currentUser)
   useEffect(() => {
     async function fetchData() {
       await fetchCurrentUser();
