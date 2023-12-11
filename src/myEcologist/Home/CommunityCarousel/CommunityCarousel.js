@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { MdLocationOn } from "react-icons/md";
 import "./CommunityCarousel.css";
+import {Link} from "react-router-dom";
 
 const HomeCommunityCarousel = () => {
   const [index, setIndex] = useState(0);
