@@ -94,9 +94,10 @@ function Header() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/Explore">
+              <Link to = "/Explore" className="nav-link">
                 Explore
-              </a>
+              </Link>
+
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/Community">
