@@ -116,7 +116,8 @@ function Observation() {
             width="100%"
             height="500"
             allowFullScreen
-            src={`https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q=${observation.latitude},${observation.longitude}`}
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=${observation.latitude},${observation.longitude}`}
+
           ></iframe>
         </div>
       )}
