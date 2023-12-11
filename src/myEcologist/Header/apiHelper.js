@@ -5,9 +5,11 @@ function fetchWikiExtract(query) {
     const wikiEndpoint = "https://en.wikipedia.org/w/api.php"
     const wikiParams = "?action=query"
     +'&format=json'
-    +'&prop=extracts&titles=' + query
-    +'&redirects=true'
-    + "&origin=*"
+    +'&prop=extracts%7Cinfo&titles=' + query
+    +'&inprop=url'
+    // +'&redirects=true'
+    +"&origin=*"
+
         // + "&format=json"
         // + "&prop=links" 
         // + "&meta=&titles=" + query
