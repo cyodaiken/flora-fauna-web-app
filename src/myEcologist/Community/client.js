@@ -3,8 +3,13 @@ import axios from "axios";
 const request = axios.create({
   withCredentials: true,
 });
-const USER_URL = "http://localhost:4000/project/users";
-const FOLLOW_URL = "http://localhost:4000/project";
+// const USER_URL = "http://localhost:4000/project/users";
+// const FOLLOW_URL = "http://localhost:4000/project";
+
+const USER_URL =
+  "https://flora-fauna-node-server-app.onrender.com/project/users";
+const FOLLOW_URL = "https://flora-fauna-node-server-app.onrender.com/project";
+
 export const fetchUsers = async () => {
   const response = await request.get(`${USER_URL}`);
   // console.log(response.data);

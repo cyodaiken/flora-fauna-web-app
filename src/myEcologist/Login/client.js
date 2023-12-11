@@ -1,6 +1,9 @@
 import axios from "axios";
+// local
+// export const BASE_API = "http://localhost:4000";
+// export const USERS_API = `${BASE_API}/project/users`;
 
-export const BASE_API = "http://localhost:4000";
+export const BASE_API = "https://flora-fauna-node-server-app.onrender.com";
 export const USERS_API = `${BASE_API}/project/users`;
 
 const request = axios.create({
