@@ -71,3 +71,10 @@ export const manageLikeDislikeForPost = async (user_id, post_id, like) => {
   );
   return response.data;
 };
+
+export const getLikeDislikeCountForPost = async (user_id, post_id) => {
+  const response = await request.get(
+    `${EXPLORE_URL}/${post_id}/likedislike/${user_id}/count`
+  );
+  return response.data;
+};
