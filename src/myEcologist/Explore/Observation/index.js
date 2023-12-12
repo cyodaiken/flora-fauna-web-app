@@ -15,6 +15,9 @@ function Observation() {
   const [observation, setObservation] = useState(null);
   const [query, setQuery] = useState("");
   const [followers, setFollowers] = useState([]);
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
+  const [userLikeStatus, setUserLikeStatus] = useState(null);
 
   //like and dislike
   const [likeStatus, setLikeStatus] = useState(null); // 'like', 'dislike', or null
@@ -46,6 +49,8 @@ function Observation() {
         like
       );
       console.log("like dislike response ::", response);
+      const response2 = getLikeDislikeCountForPost();
+      console.log(response2);
     } catch (err) {
       console.log(err);
     }
@@ -74,6 +79,24 @@ function Observation() {
     }
   };
 
+  const getLikeDislikeCountForPost = async () => {
+    try {
+      console.log("getting like count data");
+      if (currentUser) {
+        const response = await client.getLikeDislikeCountForPost(
+          currentUser.user_id,
+          observationId
+        );
+        console.log(response);
+        setLikeCount(response.like);
+        setDislikeCount(response.dislike);
+        setUserLikeStatus(response.userLikeStatus);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     // Fetch observation data from MongoDB
     fetchExplore(parseInt(observationId, 10)).then((data) => {
@@ -89,7 +112,7 @@ function Observation() {
   useEffect(() => {
     if (currentUser) {
       console.log("getting like data");
-      const response = fetchLikeDataForObservation(observationId);
+      const response = getLikeDislikeCountForPost();
       console.log(response);
     } else {
       console.log("IN ELSE NO CURRENT USER FOUND");
@@ -134,19 +157,19 @@ function Observation() {
                 </button>
                 <button
                   className={`btn ${
-                    likeStatus === "like" ? "btn-primary" : "btn-light"
+                    userLikeStatus === true ? "btn-primary" : "btn-light"
                   } me-3 float-end`}
                   onClick={handleLike}
                 >
-                  <FaThumbsUp /> Like
+                  <FaThumbsUp /> Like {likeCount}
                 </button>
                 <button
                   className={`btn ${
-                    likeStatus === "dislike" ? "btn-primary" : "btn-light"
+                    userLikeStatus === false ? "btn-primary" : "btn-light"
                   } me-3 float-end`}
                   onClick={handleDislike}
                 >
-                  <FaThumbsDown /> Dislike
+                  <FaThumbsDown /> Dislike {dislikeCount}
                 </button>
               </>
             )}
@@ -162,8 +185,10 @@ function Observation() {
             {observation.description ? observation.description : "None"}
             <br />
             <Link
-                to={`${query.fullurl}`} className="link-underline-light link-dark link-underline-opacity-100-hover">
-                Wikipedia Page <GoLinkExternal />
+              to={`${query.fullurl}`}
+              className="link-underline-light link-dark link-underline-opacity-100-hover"
+            >
+              Wikipedia Page <GoLinkExternal />
             </Link>
 
             <div dangerouslySetInnerHTML={{ __html: query.extract }}></div>
@@ -188,7 +213,6 @@ function Observation() {
             height="500"
             allowFullScreen
             src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyA0s1a7phLN0iaD6-UE7m4qP-z21pH0eSc&q=${observation.latitude},${observation.longitude}`}
-
           ></iframe>
         </div>
       )}
